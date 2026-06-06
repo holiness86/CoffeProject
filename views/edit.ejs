@@ -1,0 +1,69 @@
+<%- include('./includes/header.ejs') %>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        
+        <div class="card shadow-main rounded-md border-0 bg-main">
+          
+          <div class="card-header bg-main border-bottom border-secondary border-opacity-25 py-3 d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0 text-main fw-bold">
+              <i class="bi bi-pencil-square ms-2"></i>ویرایش محصول: <%= iteam.iteamName %>
+            </h1>
+            <a href="/admin" class="btn btn-sm btn-secondary rounded-md">
+              <i class="bi bi-arrow-right ms-1"></i>بازگشت
+            </a>
+          </div>
+
+          <div class="card-body p-4">
+            <form action="/admin/update/<%= iteam._id %>" method="POST" enctype="multipart/form-data">
+              
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="form-label text-main fw-bold">نام محصول</label>
+                  <input type="text" class="form-control" name="iteamName" value="<%= iteam.iteamName %>" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label text-main fw-bold">قیمت (تومان)</label>
+                  <input type="number" class="form-control" name="price" value="<%= iteam.price %>" required>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label text-main fw-bold">توضیحات</label>
+                  <textarea class="form-control" name="about" rows="4"><%= iteam.about %></textarea>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label text-main fw-bold">تصویر محصول</label>
+                  <div class="d-flex align-items-center gap-3 p-3 border border-secondary border-opacity-25 rounded-md bg-alt">
+                    
+                    <div class="flex-shrink-0">
+                      <img src="<%= iteam.picture %>" alt="<%= iteam.iteamName %>" class="rounded shadow-sm" style="width: 100px; height: 100px; object-fit: cover;">
+                    </div>
+                    
+                    <div class="flex-grow-1">
+                      <label class="form-label text-muted small">برای تغییر تصویر فعلی، عکس جدیدی انتخاب کنید</label>
+                      <input type="file" class="form-control" name="picture" accept="image/*">
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="col-12 mt-5 text-end">
+                  <button type="submit" class="btn btn-accent rounded-md px-4 py-2 fw-bold">
+                    <i class="bi bi-save ms-2"></i>ذخیره تغییرات
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<%- include('./includes/Footer.ejs') %>

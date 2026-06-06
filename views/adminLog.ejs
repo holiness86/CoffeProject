@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ورود ادمین | کافه موهندس</title>
+
+  <link rel="stylesheet" href="/assets/css/bootstrap.rtl.min.css" />
+  <link rel="stylesheet" href="/assets/css/icons-1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css" />
+
+  <meta name="theme-color" content="#967259" />
+  <meta name="color-scheme" content="light dark" />
+
+  <style>
+    .admin-login-wrap{
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 24px;
+      background:
+        radial-gradient(1000px 400px at 80% -10%, rgba(150,114,89,.25), transparent 60%),
+        radial-gradient(900px 360px at 10% 110%, rgba(56,34,15,.22), transparent 55%);
+    }
+    .admin-login-card{
+      width: min(980px, 100%);
+      overflow:hidden;
+      border:0;
+    }
+    .admin-login-hero{
+      background:
+        linear-gradient(135deg, rgba(56,34,15,.92), rgba(150,114,89,.85)),
+        url('/assets/images/hero-coffee.jpg') center/cover no-repeat;
+      color: #fff;
+      min-height: 420px;
+    }
+    .admin-login-hero .blur{
+      backdrop-filter: blur(6px);
+      background: rgba(0,0,0,.15);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .admin-login-form .form-control{
+      height: 48px;
+    }
+    .admin-login-form .input-group-text{
+      width: 46px;
+      justify-content:center;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="admin-login-wrap">
+    <div class="card shadow-main rounded-md admin-login-card">
+      <div class="row g-0">
+        <div class="col-lg-6 admin-login-hero d-none d-lg-flex align-items-center">
+          <div class="p-4 p-xl-5 w-100">
+            <div class="blur">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge bg-alt text-main">ADM</span>
+                <span class="fw-semibold">پنل مدیریت</span>
+              </div>
+              <h1 class="h3 fw-bold mb-2">کافه <%= setings.coffeeName %> ☕</h1>
+              <p class="mb-0 text-white-50">
+                ورود امن برای مدیریت محصولات، سفارش‌ها و پیام‌ها.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="card-body p-4 p-lg-5 admin-login-form">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h2 class="h4 text-main mb-1">ورود ادمین</h2>
+                <p class="text-muted mb-0 small">لطفاً اطلاعات ورود را وارد کنید</p>
+              </div>
+
+              <button class="btn btn-sm btn-accent" id="theme-toggle" type="button" aria-label="تغییر تم">
+                <i class="bi bi-moon-stars"></i>
+              </button>
+            </div>
+
+            <form method="post" class="mt-4">
+              <div class="mb-3">
+                <label class="form-label text-main">نام کاربری</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-alt text-main"><i class="bi bi-person"></i></span>
+                  <input type="text" name="username" class="form-control" placeholder="مثلاً admin" autocomplete="username" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label text-main">رمز عبور</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-alt text-main"><i class="bi bi-shield-lock"></i></span>
+                  <input type="password" name="pass" class="form-control" placeholder="رمز عبور" autocomplete="current-password" required>
+                  <button class="btn btn-main-outline" type="button" id="togglePass" aria-label="نمایش/مخفی کردن رمز">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-main w-100 btn-lg mt-2">
+                <i class="bi bi-box-arrow-in-left ms-1"></i> ورود
+              </button>
+
+              <div class="d-flex justify-content-between mt-3">
+                <a href="/" class="text-muted small text-decoration-none">
+                  <i class="bi bi-arrow-right"></i> بازگشت به سایت
+                </a>
+                <span class="text-muted small">© ۲۰۲۵</span>
+              </div>
+            </form>
+
+            <div class="alert alert-info mt-4 mb-0 small">
+              نکته: اگر وارد نشدی، یوزر/پس ادمین داخل دیتابیس چک کن.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    (function(){
+      function applyTheme(theme){
+        const t = theme === 'dark' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', t);
+        localStorage.setItem('theme', t);
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if(meta) meta.setAttribute('content', t === 'dark' ? '#38220f' : '#967259');
+      }
+      const saved = localStorage.getItem('theme');
+      if(saved === 'dark' || saved === 'light') applyTheme(saved);
+      else if(window.matchMedia) applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+      document.getElementById('theme-toggle')?.addEventListener('click', function(){
+        const cur = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        applyTheme(cur === 'dark' ? 'light' : 'dark');
+      });
+
+      const pass = document.querySelector('input[name="pass"]');
+      document.getElementById('togglePass')?.addEventListener('click', function(){
+        if(!pass) return;
+        const isPwd = pass.type === 'password';
+        pass.type = isPwd ? 'text' : 'password';
+        this.querySelector('i')?.classList.toggle('bi-eye');
+        this.querySelector('i')?.classList.toggle('bi-eye-slash');
+      });
+    })();
+  </script>
+</body>
+</html>

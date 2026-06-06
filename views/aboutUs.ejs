@@ -1,0 +1,199 @@
+<%- include('./includes/header.ejs') %>
+
+<main class="about-page py-4 py-lg-5">
+
+  <section class="container mb-5">
+    <div class="card shadow-main rounded-md overflow-hidden border-0">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-lg-6">
+          <div class="p-4 p-lg-5 h-100 d-flex flex-column justify-content-center">
+            <span class="badge bg-alt text-main mb-3 align-self-start">درباره ما</span>
+            <h1 class="display-5 fw-bold text-main mb-3">
+              درباره کافه <%= setings.coffeeName %> ☕
+            </h1>
+            <p class="lead text-muted mb-4">
+              <%= setings.aboutCofe %>
+            </p>
+
+            <div class="d-flex gap-2 flex-wrap">
+              <a href="/" class="btn btn-main btn-lg">مشاهده منو</a>
+              <a href="/contact" class="btn btn-main-outline btn-lg">تماس با ما</a>
+            </div>
+
+            <% 
+            const features = setings.features.split(".").map(f => f.trim()).filter(f => f)
+          %>
+          
+          <div class="hero-badges mt-4 d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
+            <% features.forEach(feature => { %>
+              <span class="badge bg-alt text-main shadow-main"><%= feature %></span>
+            <% }) %>
+          </div>
+          
+          </div>
+        </div>
+
+        <div class="col-lg-6 position-relative">
+          <img
+            src="/assets/images/cofe.jpg"
+            alt="کافه موهندس"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 320px;"
+            loading="lazy"
+          />
+          <div class="position-absolute top-0 start-0 end-0 bottom-0" style="background: linear-gradient(90deg, rgba(0,0,0,.25), transparent 55%);"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container mb-5">
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card shadow-main rounded-md border-0 h-100">
+          <div class="card-body p-4 p-lg-5">
+            <h2 class="h4 text-main mb-3">داستان ما</h2>
+            <p class="text-muted mb-0">
+              <%= setings.cofeStore %>
+            </p>
+
+            <hr class="my-4 opacity-25">
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="p-3 rounded-md bg-alt text-center">
+                  <i class="bi bi-heart-fill fs-2 text-main d-block mb-2"></i>
+                  <div class="fw-semibold text-main">با عشق</div>
+                  <div class="text-muted small">هر فنجان</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 rounded-md bg-alt text-center">
+                  <i class="bi bi-clock-history fs-2 text-main d-block mb-2"></i>
+                  <div class="fw-semibold text-main">تازه</div>
+                  <div class="text-muted small">هر روز</div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="p-3 rounded-md bg-alt text-center">
+                  <i class="bi bi-people-fill fs-2 text-main d-block mb-2"></i>
+                  <div class="fw-semibold text-main">برای شما</div>
+                  <div class="text-muted small">همیشه</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="card shadow-main rounded-md border-0 h-100">
+          <div class="card-body p-4 p-lg-5">
+            <h3 class="h5 text-main mb-3">چرا <%= setings.coffeeName %> ?</h3>
+            <ul class="list-unstyled m-0 d-grid gap-3">
+              <li class="d-flex gap-2">
+                <span class="badge bg-main text-white">۱</span>
+                <div>
+                  <div class="text-main fw-semibold">کیفیت دانه</div>
+                  <div class="text-muted small">دانه‌های تازه‌برشت با انتخاب دقیق</div>
+                </div>
+              </li>
+              <li class="d-flex gap-2">
+                <span class="badge bg-main text-white">۲</span>
+                <div>
+                  <div class="text-main fw-semibold">نوشیدنی‌های خاص</div>
+                  <div class="text-muted small">رسپی‌های اختصاصی و طعم‌های متفاوت</div>
+                </div>
+              </li>
+              <li class="d-flex gap-2">
+                <span class="badge bg-main text-white">۳</span>
+                <div>
+                  <div class="text-main fw-semibold">فضای کار</div>
+                  <div class="text-muted small">نور مناسب + وای‌فای + میزهای راحت</div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="mt-4 p-3 rounded-md bg-alt">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="text-main fw-semibold">ساعات کاری</div>
+                  <div class="text-muted small"><%= setings.timeWork %></div>
+                </div>
+                <i class="bi bi-clock fs-3 text-main"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="card shadow-main rounded-md border-0 overflow-hidden">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-lg-4 bg-main text-white p-4 p-lg-5 d-flex flex-column justify-content-center">
+          <h3 class="h4 mb-2">تماس با ما</h3>
+          <p class="mb-0 text-white-50">خوشحال می‌شیم صدای شما رو بشنویم.</p>
+        </div>
+        <div class="col-lg-8 p-4 p-lg-5">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <div class="p-3 rounded-md bg-alt h-100">
+                <i class="bi bi-geo-alt fs-3 text-main d-block mb-2"></i>
+                <div class="text-main fw-semibold">آدرس</div>
+                <div class="text-muted small"><%= setings.location %></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded-md bg-alt h-100">
+                <i class="bi bi-telephone fs-3 text-main d-block mb-2"></i>
+                <div class="text-main fw-semibold">تلفن</div>
+                <div class="text-muted small"><%= setings.phoneNumber %></div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded-md bg-alt h-100">
+                <i class="bi bi-envelope fs-3 text-main d-block mb-2"></i>
+                <div class="text-main fw-semibold">ایمیل</div>
+                <div class="text-muted small"><%= setings.email %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 d-flex justify-content-end">
+            <a href="/contact" class="btn btn-main">
+              رفتن به صفحه تماس <i class="bi bi-arrow-left ms-1"></i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const els = document.querySelectorAll('.about-page .card, .about-page .badge');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.style.transform = 'translateY(0)';
+      e.target.style.opacity = '1';
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+
+  els.forEach(el=>{
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'all 420ms ease';
+    io.observe(el);
+  });
+})();
+</script>
+
+<%- include('./includes/Footer.ejs') %>

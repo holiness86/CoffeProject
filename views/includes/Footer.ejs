@@ -1,0 +1,424 @@
+<footer class="site-footer mt-5 pb-4">
+  <div class="container">
+    <div class="footer-shell header-shell shadow-main border-0 p-4 p-lg-5" style="border-radius: 24px; backdrop-filter: blur(14px); overflow: hidden; position: relative;">
+
+      <div class="row g-4 align-items-start position-relative" style="z-index: 2;">
+        
+        <div class="col-lg-4">
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <img src="<%=setings.logo%>"
+                 alt="لوگو کافه موهندس"
+                 class="footer-brand-mark shadow-sm"
+                 style="border-radius: 14px;"
+                 loading="lazy">
+            <div>
+              <h5 class="m-0 fw-bold text-main">کافه <%= setings.coffeeName %></h5>
+              <div class="text-muted" style="font-size: 0.8rem;">قهوه تازه‌برشت • فضای آرام</div>
+            </div>
+          </div>
+
+          <p class="text-muted mb-4 small opacity-75">
+            کافه‌ای گرم و صمیمی با بهترین قهوه‌های دست‌ساز. جایی برای لحظات آرامش شما ☕
+          </p>
+
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="https://instagram.com/<%= setings.instagram %>"
+               class="footer-social header-shell shadow-sm d-flex align-items-center justify-content-center border-0 text-main"
+               style="border-radius: 50%; width: 42px; height: 42px; transition: transform 0.3s;"
+               target="_blank" rel="noopener" aria-label="اینستاگرام">
+              <i class="bi bi-instagram"></i>
+            </a>
+
+            <a href="https://telegram.me/<%= setings.telegram %>"
+               class="footer-social header-shell shadow-sm d-flex align-items-center justify-content-center border-0 text-main"
+               style="border-radius: 50%; width: 42px; height: 42px; transition: transform 0.3s;"
+               target="_blank" rel="noopener" aria-label="تلگرام">
+              <i class="bi bi-telegram"></i>
+            </a>
+
+            <a href="https://twitter.com/<%= setings.twitter %>"
+               class="footer-social header-shell shadow-sm d-flex align-items-center justify-content-center border-0 text-main"
+               style="border-radius: 50%; width: 42px; height: 42px; transition: transform 0.3s;"
+               target="_blank" rel="noopener" aria-label="توییتر">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+
+            <a href="/contact" class="footer-social header-shell shadow-sm d-flex align-items-center justify-content-center border-0 text-main"
+               style="border-radius: 50%; width: 42px; height: 42px; transition: transform 0.3s;"
+               aria-label="تماس">
+              <i class="bi bi-chat-dots"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="footer-card header-shell border-0 shadow-sm p-4 h-100" style="border-radius: 18px;">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="m-0 fw-bold text-main">لینک‌های سریع</h6>
+              <span class="badge header-shell shadow-sm text-main border-0" style="border-radius: 10px;">Quick</span>
+            </div>
+
+            <div class="row g-3 mt-1">
+              <div class="col-6">
+                <a class="text-decoration-none text-muted small fw-medium text-hover-main transition-all" href="/"><i class="bi bi-cup-hot me-1"></i> منو</a>
+              </div>
+              <div class="col-6">
+                <a class="text-decoration-none text-muted small fw-medium text-hover-main transition-all" href="/cart"><i class="bi bi-inbox me-1"></i> لیست سفارش</a>
+              </div>
+              <div class="col-6">
+                <a class="text-decoration-none text-muted small fw-medium text-hover-main transition-all" href="/about_us"><i class="bi bi-info-circle me-1"></i> درباره ما</a>
+              </div>
+              <div class="col-6">
+                <a class="text-decoration-none text-muted small fw-medium text-hover-main transition-all" href="/contact"><i class="bi bi-telephone me-1"></i> تماس</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4">
+          <div class="footer-card header-shell border-0 shadow-sm p-4 h-100" style="border-radius: 18px;">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <h6 class="m-0 fw-bold text-main">ارتباط با ما</h6>
+              <span class="badge header-shell shadow-sm text-main border-0" style="border-radius: 10px;">Contact</span>
+            </div>
+
+            <div class="d-flex flex-column gap-3 small">
+              <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-geo-alt mt-1 text-main"></i>
+                <span class="text-muted opacity-75"><%= setings.location %></span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-telephone text-main"></i>
+                <span class="text-muted opacity-75" dir="ltr"><%= setings.phoneNumber %></span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-clock text-main"></i>
+                <span class="text-muted opacity-75"><%= setings.timeWork %></span>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <a href="/contact" class="btn btn-main-outline btn-sm btn-pill w-100 shadow-sm d-flex align-items-center justify-content-center gap-2">
+                <i class="bi bi-send"></i> ارسال پیام
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="footer-divider my-4 border-secondary opacity-10" style="position: relative; z-index: 2;">
+
+      <div class="row align-items-center gy-3 position-relative" style="z-index: 2;">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="text-muted mb-0 small opacity-75">
+            تمام حقوق محفوظ است © ۲۰۲۶ | طراحی توسط
+            <a href="https://www.linkedin.com/in/arshya-rezadost-901418294" class="text-main fw-bold text-decoration-none" target="_blank">موهندس</a>
+          </p>
+        </div>
+
+        <div class="col-md-6">
+          <div class="d-flex justify-content-center justify-content-md-end align-items-center gap-2">
+            <span class="header-shell px-3 py-1 text-main shadow-sm" style="border-radius: 12px; font-size: 0.75rem;">ساخته شده با ❤️</span>
+            <span class="header-shell px-3 py-1 text-main shadow-sm" style="border-radius: 12px; font-size: 0.75rem;">برای عاشقان قهوه ☕</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+
+  <script src="/assets/js/jquery-3.7.1.min.js"></script>
+  <script src="/assets/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  (function () {
+
+    const CART_DEBUG = localStorage.getItem('debugCart') === '1';
+    const log = (...args) => { if (CART_DEBUG) console.log('[CartUI]', ...args); };
+
+
+    window.showAppToast = function (message, type) {
+      const el = document.getElementById('appToast');
+      const body = document.getElementById('appToastBody');
+      if (!el || !body) return;
+
+      body.textContent = message;
+      el.classList.remove('bg-main', 'bg-alt', 'text-white', 'text-main');
+
+      if (type === 'success') el.classList.add('bg-main', 'text-white');
+      else if (type === 'danger') el.classList.add('bg-alt', 'text-main');
+      else el.classList.add('bg-alt', 'text-main');
+
+      if (window.bootstrap && bootstrap.Toast) {
+        bootstrap.Toast.getOrCreateInstance(el, { delay: 2200 }).show();
+      }
+    };
+
+
+    window.applyTheme = function (theme) {
+      const next = theme === 'dark' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-bs-theme', next);
+      localStorage.setItem('theme', next);
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) meta.setAttribute('content', next === 'dark' ? '#38220f' : '#967259');
+    };
+
+    window.toggleTheme = function () {
+      const cur = document.documentElement.getAttribute('data-bs-theme') || 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      window.applyTheme(next);
+      window.showAppToast(next === 'dark' ? 'تم دارک فعال شد 🌙' : 'تم روشن فعال شد 🌤️', 'info');
+    };
+
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || saved === 'light') window.applyTheme(saved);
+    else if (window.matchMedia) window.applyTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    else window.applyTheme('light');
+
+    document.getElementById('theme-toggle')?.addEventListener('click', window.toggleTheme);
+
+    const path = window.location.pathname.replace(/\/+$/, '') || '/';
+    document.querySelectorAll('.main-navbar .nav-link').forEach(a => {
+      const href = (a.getAttribute('href') || '').replace(/\/+$/, '') || '/';
+      a.classList.toggle('active', href === path);
+    });
+
+    window.CartUI = (function () {
+      const state = { summary: null, pending: new Set() };
+
+      function fmtToman(n) {
+        try { return (Number(n) || 0).toLocaleString('fa-IR'); } catch { return String(n || 0); }
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#039;');
+      }
+
+      function setCartTotalCount(totalQty) {
+        const v = String(totalQty ?? 0);
+        document.querySelectorAll('.js-cart-total-count').forEach(el => el.textContent = v);
+        const legacy = document.getElementById('cartTotalCount');
+        if (legacy) legacy.textContent = v;
+      }
+      window.setCartTotalCount = setCartTotalCount;
+
+
+function setMiniCart(summary) {
+  const list = document.getElementById('miniCartList');
+  const qtyEl = document.getElementById('miniCartTotalQty');
+  const priceEl = document.getElementById('miniCartTotalPrice');
+
+  if (qtyEl) qtyEl.textContent = String(summary?.totalQty ?? 0);
+  if (priceEl) priceEl.textContent = fmtToman(summary?.totalPrice ?? 0);
+
+  if (!list) return;
+
+  const items = summary?.items || [];
+  if (!items.length) {
+    list.innerHTML = '<div class="text-muted small py-2 text-center">سبد خرید خالی است ☕</div>';
+    return;
+  }
+
+  list.innerHTML = items.map(it => {
+    const itemId = String(it.itemId || '');
+    const name = String(it.name || '');
+    const qty = Number(it.quantity || 0);
+    const price = Number(it.price || 0);
+    const line = price * qty;
+
+    const pic = it.picture ? String(it.picture) : '';
+
+    return `
+      <div class="mini-cart-item d-flex align-items-start justify-content-between gap-2 py-2 border-bottom">
+        <div class="d-flex gap-2 flex-grow-1">
+          <img
+            src="${pic}"
+            class="mini-cart-thumb"
+            alt="${escapeHtml(name)}"
+            loading="lazy"
+            onerror="this.style.display='none';"
+          />
+
+          <div class="flex-grow-1">
+            <div class="text-main small fw-semibold">${escapeHtml(name)}</div>
+            <div class="text-muted small">
+              ${qty}× ${fmtToman(price)} تومان
+              <span class="mx-1">·</span>
+              <span class="text-main">${fmtToman(line)} تومان</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- کم کردن ۱ عدد با itemId -->
+        <button
+          class="btn btn-sm btn-link text-main p-0 mini-cart__remove"
+          type="button"
+          data-item-id="${itemId}"
+          title="کم کردن (۱ عدد)"
+          aria-label="کم کردن"
+        >
+          <i class="bi bi-dash-circle"></i>
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+      function syncIndexQuantities(summary) {
+        const grid = document.getElementById('productsGrid');
+        if (!grid) return;
+
+        const map = new Map();
+        (summary?.items || []).forEach(it => {
+          if (it.productId) map.set(String(it.productId), Number(it.quantity || 0));
+        });
+
+        grid.querySelectorAll('.product-actions[data-id]').forEach(wrap => {
+          const productId = String(wrap.getAttribute('data-id') || '');
+          const qty = map.get(productId) || 0;
+
+          const btnFirst = wrap.querySelector('.btn-add-first');
+          const qtyWrap = wrap.querySelector('.qty-wrap');
+          const countSpan = document.getElementById(`count-${productId}`);
+
+          if (countSpan) countSpan.textContent = String(qty);
+
+          if (qty > 0) {
+            btnFirst?.classList.add('d-none');
+            qtyWrap?.classList.remove('d-none');
+          } else {
+            btnFirst?.classList.remove('d-none');
+            qtyWrap?.classList.add('d-none');
+          }
+        });
+      }
+
+      async function getSummary() {
+        const res = await fetch('/cart/summary', {
+          headers: { 'Accept': 'application/json' }
+        });
+
+        const ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (!ct.includes('application/json')) {
+          const text = await res.text();
+          log('Summary returned non-JSON:', { status: res.status, ct, text: text.slice(0, 140) });
+          throw new Error('پاسخ /cart/summary JSON نیست (احتمالاً روت‌ها یا Accept header مشکل دارد).');
+        }
+
+        const data = await res.json();
+        log('Summary OK:', data);
+        return data;
+      }
+
+      async function post(url) {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Accept': 'application/json'
+          }
+        });
+
+        const ct = (res.headers.get('content-type') || '').toLowerCase();
+        if (!ct.includes('application/json')) {
+          const text = await res.text();
+          log('POST returned non-JSON:', { url, status: res.status, ct, text: text.slice(0, 180) });
+          throw new Error('پاسخ سرور JSON نیست (روت بک‌اند احتمالاً Redirect/HTML برگردانده).');
+        }
+
+        const data = await res.json();
+        log('POST OK:', url, data);
+
+        if (!res.ok) {
+          throw new Error(data?.error || data?.message || 'خطای سرور');
+        }
+
+        return data;
+      }
+
+      async function refresh() {
+        try {
+          const summary = await getSummary();
+          state.summary = summary;
+          setCartTotalCount(summary.totalQty);
+          setMiniCart(summary);
+          syncIndexQuantities(summary);
+        } catch (e) {
+          log('refresh failed:', e);
+          window.showAppToast?.(e?.message || 'خطا در بروزرسانی سبد خرید', 'danger');
+        }
+      }
+
+      async function add(productId) {
+        if (!productId || state.pending.has(productId)) return;
+        state.pending.add(productId);
+        try {
+          await post(`/cart/add/${productId}`);
+          await refresh();
+          window.showAppToast?.('به سبد خرید اضافه شد ✅', 'success');
+        } catch (e) {
+          window.showAppToast?.(e?.message || 'خطا در افزودن', 'danger');
+        } finally {
+          state.pending.delete(productId);
+        }
+      }
+
+      async function decrease(productId) {
+        if (!productId || state.pending.has(productId)) return;
+        state.pending.add(productId);
+        try {
+          await post(`/cart/decrease/${productId}`);
+          await refresh();
+        } catch (e) {
+          window.showAppToast?.(e?.message || 'خطا در کم کردن', 'danger');
+        } finally {
+          state.pending.delete(productId);
+        }
+      }
+
+      async function removeByItemId(itemId) {
+        if (!itemId || state.pending.has(itemId)) return;
+        state.pending.add(itemId);
+        try {
+          await post(`/cart/delete/${itemId}`);
+          await refresh();
+        } catch (e) {
+          window.showAppToast?.(e?.message || 'خطا در حذف', 'danger');
+        } finally {
+          state.pending.delete(itemId);
+        }
+      }
+
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.mini-cart__remove');
+        if (!btn) return;
+        e.preventDefault();
+        const itemId = btn.getAttribute('data-item-id');
+        removeByItemId(itemId);
+      });
+
+      document.getElementById('cartDropdown')?.addEventListener('shown.bs.dropdown', function(){
+        refresh();
+      });
+
+      return { refresh, add, decrease, removeByItemId };
+    })();
+
+    window.addEventListener('DOMContentLoaded', function () {
+      window.CartUI?.refresh();
+    });
+
+  })();
+  </script>
+
+  <script src="/assets/js/script.js"></script>
+
+</body>
+</html>

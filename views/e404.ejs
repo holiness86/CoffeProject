@@ -1,0 +1,136 @@
+<%- include('./includes/header.ejs') %>
+
+<main class="error-page py-4 py-lg-5">
+  <section class="container mb-4 mb-lg-5">
+    <div class="card shadow-main rounded-md border-0 overflow-hidden position-relative">
+      <div class="position-absolute top-0 start-0 end-0 bottom-0"
+           style="background:
+             radial-gradient(900px 420px at 80% -20%, rgba(150,114,89,.22), transparent 60%),
+             radial-gradient(800px 360px at 10% 120%, rgba(56,34,15,.22), transparent 55%);
+           ">
+      </div>
+
+      <div class="card-body p-4 p-lg-5 position-relative">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7 text-center text-lg-start">
+            <span class="badge bg-alt text-main mb-3">خطای ۴۰۴</span>
+
+            <div class="d-flex align-items-center justify-content-center justify-content-lg-start gap-3 mb-3">
+              <div class="display-1 fw-bold text-main m-0" style="line-height: 1;">۴۰۴</div>
+              <div class="text-muted">
+                <div class="h4 text-main mb-1">صفحه پیدا نشد</div>
+                <div class="small">یا لینک اشتباهه، یا صفحه حذف شده.</div>
+              </div>
+            </div>
+
+            <p class="lead text-muted mb-2">
+              اوپس! صفحه‌ای که دنبالش بودی مثل قهوه‌ی سرد شد و غیبش زد ☕
+            </p>
+            <p class="text-muted mb-4">
+              شاید آدرس رو اشتباه زدی، یا ما یه فنجون قهوه ریختیم روش و پاک شد!
+            </p>
+
+            <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center justify-content-lg-start">
+              <a href="/" class="btn btn-main btn-lg">
+                <i class="bi bi-house ms-1"></i> بازگشت به خانه
+              </a>
+              <a href="/contact" class="btn btn-main-outline btn-lg">
+                <i class="bi bi-chat-dots ms-1"></i> گزارش مشکل
+              </a>
+            </div>
+
+            <div class="mt-4 d-flex gap-2 flex-wrap justify-content-center justify-content-lg-start">
+              <span class="badge bg-alt text-main shadow-main">منو</span>
+              <span class="badge bg-alt text-main shadow-main">سبد خرید</span>
+              <span class="badge bg-alt text-main shadow-main">درباره ما</span>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="card bg-alt border-0 rounded-md p-4 text-center shadow-main">
+              <div class="mb-3">
+                <i class="bi bi-cup-hot-fill fs-1 text-main"></i>
+              </div>
+              <div class="text-main fw-semibold mb-2">پیشنهاد سریع</div>
+              <div class="text-muted small mb-3">
+                از منوی اصلی یک نوشیدنی انتخاب کن و دوباره امتحان کن 😌
+              </div>
+
+              <div class="d-grid gap-2">
+                <a class="btn btn-main" href="/#products">
+                  رفتن به محصولات <i class="bi bi-arrow-left ms-1"></i>
+                </a>
+                <a class="btn btn-main-outline" href="/cart">
+                  رفتن به سبد خرید <i class="bi bi-cart ms-1"></i>
+                </a>
+              </div>
+
+              <hr class="my-4 opacity-25">
+
+              <div class="text-muted small">
+                اگر فکر می‌کنی لینک باید وجود داشته باشه،
+                از صفحه تماس پیام بده تا سریع درستش کنیم.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="row g-3 g-lg-4">
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 text-center error-card">
+          <i class="bi bi-search fs-1 text-main mb-3"></i>
+          <h5 class="text-main mb-2">جستجو کن</h5>
+          <p class="small text-muted mb-0">شاید قهوه‌ات تو یه صفحه دیگه منتظرته!</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 text-center error-card">
+          <i class="bi bi-chat-dots fs-1 text-main mb-3"></i>
+          <h5 class="text-main mb-2">بهمون بگو</h5>
+          <p class="small text-muted mb-0">اگه لینک خرابه، بهمون خبر بده تا درستش کنیم ☕</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 text-center error-card">
+          <i class="bi bi-emoji-smile fs-1 text-main mb-3"></i>
+          <h5 class="text-main mb-2">یه قهوه بخور</h5>
+          <p class="small text-muted mb-0">استرس نداره! یه نفس عمیق بکش و دوباره امتحان کن</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  const els = document.querySelectorAll('.error-page .card, .error-page .badge');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.style.transform = 'translateY(0)';
+      e.target.style.opacity = '1';
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+
+  els.forEach(el=>{
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'all 420ms ease';
+    io.observe(el);
+  });
+
+  document.querySelectorAll('.error-card').forEach(card=>{
+    card.addEventListener('mouseenter', ()=> card.style.transform = 'translateY(-4px)');
+    card.addEventListener('mouseleave', ()=> card.style.transform = 'translateY(0)');
+    card.style.transition = 'transform 180ms ease';
+  });
+})();
+</script>
+
+<%- include('./includes/Footer.ejs') %>

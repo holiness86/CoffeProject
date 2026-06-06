@@ -1,0 +1,135 @@
+<%- include('./includes/header.ejs') %>
+
+<main class="success-page py-4 py-lg-5">
+
+  <section class="container mb-4 mb-lg-5">
+    <div class="card shadow-main rounded-md border-0 overflow-hidden position-relative">
+      <div class="position-absolute top-0 start-0 end-0 bottom-0"
+           style="background:
+             linear-gradient(135deg, rgba(56,34,15,.92), rgba(150,114,89,.85)),
+             radial-gradient(900px 420px at 80% -20%, rgba(255,255,255,.18), transparent 60%);
+           ">
+      </div>
+
+      <div class="card-body p-4 p-lg-5 position-relative text-center text-lg-start">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-8">
+            <span class="badge bg-alt text-main mb-3">موفقیت</span>
+            <h1 class="display-6 fw-bold text-white mb-2">
+              سفارش شما با موفقیت ثبت شد ✅
+            </h1>
+            <p class="text-white-50 mb-4">
+              سفارشتون رو آماده می‌کنیم. ممنون از انتخاب کافه <%= setings.coffeeName %> ☕
+            </p>
+
+            <div class="d-flex gap-2 flex-wrap justify-content-center justify-content-lg-start">
+              <a href="/" class="btn btn-main btn-lg">
+                <i class="bi bi-arrow-right ms-1"></i> بازگشت به منو
+              </a>
+              <a href="/cart" class="btn btn-main btn-lg">
+                <i class="bi bi-cart ms-1"></i> مشاهده سبد خرید
+              </a>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="card bg-alt border-0 rounded-md p-4 text-center shadow-main">
+              <i class="bi bi-check-circle-fill fs-1 text-success mb-3 d-block"></i>
+              <div class="text-main fw-semibold mb-1">سفارش دریافت شد</div>
+              <div class="text-muted small mb-3">
+                تیم ما در حال آماده‌سازی نوشیدنی‌های شماست.
+              </div>
+
+              <div class="d-grid gap-2">
+                <a class="btn btn-main" href="/#products">
+                  انتخاب محصولات بیشتر <i class="bi bi-plus-circle ms-1"></i>
+                </a>
+                <a class="btn btn-main-outline" href="/contact">
+                  سوال داری؟ پیام بده <i class="bi bi-chat ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="row g-3 g-lg-4">
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 success-step">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-main text-white">۱</span>
+            <div class="text-main fw-semibold">ثبت سفارش</div>
+          </div>
+          <div class="text-muted small">سفارش شما ثبت شد و به تیم آماده‌سازی ارسال گردید.</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 success-step">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-main text-white">۲</span>
+            <div class="text-main fw-semibold">آماده‌سازی</div>
+          </div>
+          <div class="text-muted small">در حال آماده‌سازی با مواد تازه و کیفیت عالی ☕</div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card shadow-main rounded-md border-0 h-100 p-4 success-step">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="badge bg-main text-white">۳</span>
+            <div class="text-main fw-semibold">تحویل</div>
+          </div>
+          <div class="text-muted small">سفارش به میز شما تحویل داده می‌شود. نوش جان 😋</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card shadow-main rounded-md border-0 mt-4 p-4">
+      <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between gap-3">
+        <div>
+          <div class="text-main fw-semibold mb-1">می‌خوای سفارش جدید ثبت کنی؟</div>
+          <div class="text-muted small">هر وقت آماده بودی، از منو محصولات دیگه رو هم اضافه کن.</div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="/" class="btn btn-main">رفتن به منو</a>
+          <a href="/about_us" class="btn btn-main-outline">درباره ما</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const els = document.querySelectorAll('.success-page .card, .success-page .badge');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.style.transform = 'translateY(0)';
+      e.target.style.opacity = '1';
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+
+  els.forEach(el=>{
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'all 420ms ease';
+    io.observe(el);
+  });
+
+  document.querySelectorAll('.success-step').forEach(card=>{
+    card.addEventListener('mouseenter', ()=> card.style.transform = 'translateY(-4px)');
+    card.addEventListener('mouseleave', ()=> card.style.transform = 'translateY(0)');
+    card.style.transition = 'transform 180ms ease';
+  });
+})();
+</script>
+
+<%- include('./includes/Footer.ejs') %>

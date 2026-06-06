@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= typeof title !== 'undefined' ? title : 'منوی کافه' %></title>
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/assets/css/icons-1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/socket.io/socket.io.js"></script>
+
+    <meta name="theme-color" content="#967259" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="shortcut icon" href="/assets/images/Logo/Logo.png" type="image/png">
+  </head>
+
+  <body>
+    <header class="site-header sticky-top">
+      <div class="container py-2">
+        <nav class="header-shell navbar navbar-expand-lg px-3 py-2 shadow-sm d-flex align-items-center">
+          
+          <a class="navbar-brand d-flex align-items-center gap-2 me-auto" href="/" aria-label="کافه">
+            <img src="<%=setings.logo%>" alt="لوگو کافه" class="brand-mark" loading="lazy" style="height: 40px;" />
+            <span class="fw-bold fs-5 text-main d-none d-sm-inline"><%= setings.coffeeName %></span>
+          </a>
+
+          <button
+            class="navbar-toggler border-0 shadow-none px-0 ms-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="باز و بسته کردن منو"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-2 nav-pills-soft text-center mt-3 mt-lg-0">
+              <li class="nav-item"><a class="nav-link px-3" href="/" data-nav="menu">منو</a></li>
+              <li class="nav-item"><a class="nav-link px-3" href="/about_us" data-nav="about">درباره ما</a></li>
+              <li class="nav-item"><a class="nav-link px-3" href="/contact" data-nav="contact">تماس</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center justify-content-center gap-2 mt-3 mt-lg-0">
+              
+              <button class="btn btn-sm header-action btn-pill d-flex align-items-center justify-content-center p-2" id="theme-toggle" type="button" aria-label="تغییر تم">
+                <img src="/assets/images/theme-icon.png" alt="تغییر تم" class="icon-theme" style="width: 20px; height: 20px;" loading="lazy" />
+              </button>
+
+              <div class="nav-item dropdown">
+                <button
+                  class="btn header-action btn-pill d-flex align-items-center gap-2 px-3 border-0"
+                  id="cartDropdown"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  data-nav="cart"
+                >
+                  <i class="bi bi-inbox-fill text-main fs-5"></i>
+                  <span class="d-none d-md-inline fw-medium text-main">سفارش</span>
+                  <span class="cart-badge js-cart-total-count ms-1" style="min-width: 24px;">0</span>
+                </button>
+
+                <div class="dropdown-menu dropdown-menu-end p-0 shadow-main rounded-md mini-cart-menu border-0 mt-3" aria-labelledby="cartDropdown">
+                  <div class="mini-cart-head p-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="fw-semibold text-main">لیست سفارش</span>
+                      <span class="text-muted small"><span id="miniCartTotalQty">0</span> آیتم</span>
+                    </div>
+                  </div>
+
+                  <div id="miniCartList" class="mini-cart-list px-2 py-2"></div>
+
+                  <div class="mini-cart-foot p-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <span class="text-muted small">جمع کل:</span>
+                      <span class="fw-bold text-main fs-6"><span id="miniCartTotalPrice">0</span> تومان</span>
+                    </div>
+                    <div class="d-grid">
+                      <a href="/cart" class="btn btn-main btn-sm rounded-md">مشاهده و تکمیل سفارش</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3" style="z-index: 2000">
+      <div id="appToast" class="toast align-items-center border-0 shadow-main rounded-md" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex px-2 py-1">
+          <div class="toast-body fw-medium" id="appToastBody">...</div>
+          <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="بستن"></button>
+        </div>
+      </div>
+    </div>

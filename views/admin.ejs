@@ -1,0 +1,909 @@
+
+
+<%- include('./includes/header.ejs') %>
+
+<main class="admin-page container-fluid py-4">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+        <div>
+          <h1 class="h3 text-main mb-1">پنل مدیریت کافه <%= setings.coffeeName %></h1>
+          <div class="text-muted small">مدیریت محصولات، سفارش‌ها و پیام‌ها</div>
+        </div>
+
+        <div class="d-flex gap-2 align-items-center">
+          <div class="input-group" style="max-width: 320px;">
+            <span class="input-group-text bg-alt text-main"><i class="bi bi-search"></i></span>
+            <input id="adminGlobalSearch" type="text" class="form-control" placeholder="جستجو در جدول فعال...">
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card shadow-main rounded-md">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted small">تعداد محصولات</div>
+                  <div class="h4 text-main mb-0"><%= iteams?.length || 0 %></div>
+                </div>
+                <span class="badge bg-main"><i class="bi bi-box-seam"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card shadow-main rounded-md">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted small">سفارش‌های ثبت شده</div>
+                  <div class="h4 text-main mb-0"><%= pendingOrders?.length || 0 %></div>
+                </div>
+                <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card shadow-main rounded-md">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted small">در حال آماده‌سازی</div>
+                  <div class="h4 text-main mb-0"><%= preparingOrders?.length || 0 %></div>
+                </div>
+                <span class="badge bg-info text-dark"><i class="bi bi-fire"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-3">
+          <div class="card shadow-main rounded-md">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <div class="text-muted small">تحویل داده شده</div>
+                  <div class="h4 text-main mb-0"><%= deliveredOrders?.length || 0 %></div>
+                </div>
+                <span class="badge bg-success text-white"><i class="bi bi-check2-circle"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+  <div class="row g-3">
+
+    <aside class="col-12 col-md-3 col-lg-2">
+      <div class="admin-sidebar card shadow-main rounded-md position-sticky" style="top: 90px;">
+        <div class="card-body p-3">
+          <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-2">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge bg-main">ADM</span>
+              <span class="fw-bold text-main">مدیریت</span>
+            </div>
+            <button class="btn btn-sm btn-accent d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+              <i class="bi bi-list"></i>
+            </button>
+          </div>
+
+          <div class="collapse d-md-block" id="adminNav">
+            <nav class="nav nav-pills flex-column gap-1">
+              <a class="nav-link active" href="#tab-products" data-bs-toggle="pill"><i class="bi bi-box-seam ms-2"></i> محصولات</a>
+              <hr class="my-0 border-secondary opacity-25">
+              <a class="nav-link" href="#tab-orders" data-bs-toggle="pill"><i class="bi bi-receipt ms-2"></i> سفارش‌ها</a>
+              <hr class="my-0 border-secondary opacity-25">
+              <a class="nav-link" href="#tab-messages" data-bs-toggle="pill"><i class="bi bi-chat-dots ms-2"></i> پیام‌ها</a>
+              
+              <hr class="my-0 border-secondary opacity-25">
+              
+              <a class="nav-link" href="#tab-categories" data-bs-toggle="pill"><i class="bi bi-tags ms-2"></i>دسته‌بندی‌ها</a>
+    
+              
+              <hr class="my-0 border-secondary opacity-25">
+              
+              <a class="nav-link" href="#tab-settings" data-bs-toggle="pill"><i class="bi bi-gear ms-2"></i> تنظیمات</a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="col-12 col-md-9 col-lg-10">
+      <div class="tab-content">
+        
+        <div class="tab-pane fade show active" id="tab-products">
+          <div class="card shadow-main rounded-md mb-4 border-0">
+            <div class="card-header bg-transparent border-bottom-0 d-flex justify-content-between align-items-center pt-4 pb-0 px-4">
+              <div>
+                <h2 class="h5 text-main mb-1 fw-bold"><i class="bi bi-box-seam me-2"></i>مدیریت محصولات</h2>
+                <small class="text-muted">افزودن، جستجو و مدیریت لیست محصولات کافه</small>
+              </div>
+
+              <button class="btn btn-main btn-sm d-flex align-items-center gap-1 shadow-sm" type="button" data-bs-toggle="collapse" data-bs-target="#addProductBox" aria-expanded="true" aria-controls="addProductBox">
+                <i class="bi bi-plus-lg"></i> <span>افزودن محصول جدید</span>
+              </button>
+            </div>
+
+            <div class="collapse show mt-3" id="addProductBox">
+              <div class="card-body px-4 pb-4 pt-3">
+                <form class="row g-4 align-items-start rounded-md p-3 border shadow-sm" method="post" enctype="multipart/form-data" id="productForm">
+                  
+                  <div class="col-12 col-lg-4">
+                    <label class="form-label text-main fw-semibold small">نام محصول <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text border-end-0 text-muted"><i class="bi bi-cup-hot"></i></span>
+                      <input type="text" class="form-control border-start-0 ps-0" placeholder="مثلاً لاته کارامل" required name="iteamName" />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-lg-3">
+                    <label class="form-label text-main fw-semibold small">قیمت (تومان) <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text border-end-0 text-muted"><i class="bi bi-tag"></i></span>
+                      <input type="number" class="form-control border-start-0 ps-0" placeholder="مثلاً 85000" required name="price"/>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-lg-5">
+                    <label class="form-label text-main fw-semibold small">تصویر محصول <span class="text-danger">*</span></label>
+                    <div class="d-flex gap-3 align-items-center border rounded-3 p-2">
+                      <div class="position-relative flex-shrink-0">
+                        <img id="productImagePreview" class="rounded-3 shadow-sm object-fit-cover d-none" style="width: 56px; height: 56px; border: 2px solid var(--bs-main);" alt="پیش‌نمایش" src="" />
+                        <div id="productImagePlaceholder" class="rounded-3 shadow-sm d-flex justify-content-center align-items-center bg-light text-muted" style="width: 56px; height: 56px; border: 2px dashed #ccc;">
+                          <i class="bi bi-image fs-5"></i>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <input id="productImageInput" type="file" class="form-control form-control-sm" name="picture" accept="image/*" required/>
+                        <small class="text-muted mt-1 d-block" style="font-size: 0.75rem;">فرمت‌های مجاز: JPG, PNG, WEBP</small>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label text-main fw-semibold small">توضیحات</label>
+                    <textarea class="form-control" placeholder="توضیحات کوتاه و جذاب برای محصول..." name="about" rows="2" style="resize: none;"></textarea>
+                  </div>
+
+                  <% if (categore.length > 0) { %>
+                  <div class="col-12">
+                    <label class="form-label text-main fw-semibold small mb-2"><i class="bi bi-collection me-1"></i> دسته‌بندی محصول <span class="text-danger">*</span></label>
+                    <div class="border rounded-md p-3" style="max-height: 220px; overflow-y: auto;">
+                      <div class="row g-2">
+                        <% categore.forEach((cat, i) => { %>
+                          <div class="col-12 col-md-4 col-lg-3">
+                            <div class="card border border-2 shadow-sm h-100 category-card hover-bg-light transition-all">
+                              <div class="card-body p-2 d-flex align-items-center">
+                                <div class="form-check w-100 m-0">
+                                  <input class="form-check-input" type="radio" name="categore" id="cat-<%= cat._id %>" value="<%= cat._id %>" required>
+                                  <label class="form-check-label fw-bold text-main w-100 stretched-link" for="cat-<%= cat._id %>" style="cursor: pointer; font-size: 0.9rem;">
+                                    <%= cat.name %>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <% }) %>
+                      </div>
+                    </div>
+                  </div>
+                  <% } %>
+
+                  <div class="col-12 d-flex gap-2 pt-2 border-top mt-4">
+                    <button type="submit" class="btn btn-main px-4 shadow-sm" name="action" value="iteam">
+                      <i class="bi bi-check-circle me-1"></i> ثبت محصول
+                    </button>
+                    <button type="reset" class="btn btn-main-outline px-4" id="btnResetProductForm">
+                      <i class="bi bi-arrow-counterclockwise me-1"></i> پاک کردن
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="card shadow-main rounded-md border-0" style="background-color: var(--bs-body-bg); color: var(--bs-body-color); overflow: hidden; transition: background-color 0.3s ease, color 0.3s ease;">
+  
+  <div class="card-header bg-transparent d-flex flex-wrap gap-3 justify-content-between align-items-center py-4 px-4" style="border-bottom: 1px solid var(--bs-border-color) !important;">
+    <div class="d-flex align-items-center gap-3">
+      <div class="bg-main text-white rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.08) rotate(3deg)'" onmouseout="this.style.transform='scale(1) rotate(0)'">
+        <i class="bi bi-list-ul fs-5"></i>
+      </div>
+      <div>
+        <h3 class="h5 mb-1 fw-bold" style="color: var(--bs-emphasis-color);">لیست محصولات</h3>
+        <small style="color: var(--bs-secondary-color); font-size: 0.8rem; font-weight: 500;">مدیریت و ویرایش منوی کافه</small>
+      </div>
+    </div>
+
+    <div class="d-flex gap-2 align-items-center">
+      <div class="input-group shadow-sm" style="min-width: 220px; border-radius: 12px; overflow: hidden; border: 1px solid var(--bs-border-color-translucent);">
+        <span class="input-group-text border-0" style="background-color: color-mix(in srgb, var(--bs-body-color) 4%, var(--bs-body-bg)); color: var(--bs-secondary-color);">
+          <i class="bi bi-sort-down"></i>
+        </span>
+        <select id="productSortAdmin" class="form-select border-0 shadow-none fw-medium" style="background-color: color-mix(in srgb, var(--bs-body-color) 4%, var(--bs-body-bg)); color: var(--bs-emphasis-color); cursor: pointer;">
+          <option value="default">مرتب‌سازی پیش‌فرض</option>
+          <option value="name_asc">نام: الف ← ی</option>
+          <option value="price_asc">قیمت: ارزان‌ترین</option>
+          <option value="price_desc">قیمت: گران‌ترین</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table align-middle table-hover admin-table mb-0 border-0" id="productsTable">
+        
+        <thead style="background-color: color-mix(in srgb, var(--bs-body-color) 2%, var(--bs-body-bg));">
+          <tr>
+            <th style="width: 25%; font-weight: 700; color: var(--bs-secondary-color);" class="ps-4 py-3 border-0 fs-6">نام محصول</th>
+            <th style="width: 15%; font-weight: 700; color: var(--bs-secondary-color);" class="py-3 border-0 fs-6">قیمت</th>
+            <th style="font-weight: 700; color: var(--bs-secondary-color);" class="py-3 border-0 fs-6">توضیحات</th>
+            <th style="width: 15%; font-weight: 700; color: var(--bs-secondary-color);" class="text-center py-3 border-0 fs-6">عملیات</th>
+          </tr>
+        </thead>
+        
+        <tbody style="border-top: none;">
+          <% if (iteams && iteams.length > 0) { %>
+            <% iteams.forEach(iteam => { %>
+              <tr data-name="<%= String(iteam.iteamName||'').toLowerCase() %>"
+                  data-price="<%= Number(String(iteam.price||'0').replace(/[^\d]/g,'')) || 0 %>"
+                  style="transition: background-color 0.2s ease;">
+                
+                <td class="ps-4 py-3 border-bottom" style="border-color: var(--bs-border-color-translucent);">
+                  <span class="fw-bold fs-6" style="color: var(--bs-emphasis-color);"><%= iteam.iteamName %></span>
+                </td>
+                
+                <td class="py-3 border-bottom" style="border-color: var(--bs-border-color-translucent);">
+                  <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: color-mix(in srgb, var(--bs-main) 12%, var(--bs-body-bg)); color: var(--bs-main); font-weight: 700; font-size: 0.85rem; border: 1px solid color-mix(in srgb, var(--bs-main) 20%, transparent);">
+                    <%= (Number(String(iteam.price || '0').replace(/[^\d]/g,'')) || 0).toLocaleString('en-US') %> تومان
+                  </span>
+                </td>
+                
+                <td class="py-3 border-bottom text-truncate" style="max-width: 250px; color: var(--bs-secondary-color); border-color: var(--bs-border-color-translucent); font-size: 0.85rem; line-height: 1.6;">
+                  <%= iteam.about || 'بدون توضیحات' %>
+                </td>
+                
+                <td class="py-3 border-bottom" style="border-color: var(--bs-border-color-translucent);">
+                  <div class="d-flex gap-2 justify-content-center">
+                    
+                    <form method="get" action="/admin/edit/<%= iteam._id %>" class="m-0">
+                      <button type="submit" class="btn btn-sm d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; border-radius: 10px; background-color: var(--bs-body-bg); color: var(--bs-body-color); border: 1px solid var(--bs-border-color); transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='var(--bs-main)'; this.style.color='#fff'; this.style.borderColor='var(--bs-main)';" onmouseout="this.style.backgroundColor='var(--bs-body-bg)'; this.style.color='var(--bs-body-color)'; this.style.borderColor='var(--bs-border-color)';" data-bs-toggle="tooltip" title="ویرایش محصول">
+                        <i class="bi bi-pencil-square fs-6"></i>
+                      </button>
+                    </form>
+                    
+                    <form method="post" action="/admin/delete/<%= iteam._id %>" class="m-0 js-confirm-delete">
+                      <button type="submit" class="btn btn-sm d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; border-radius: 10px; background-color: var(--bs-body-bg); color: #dc3545; border: 1px solid var(--bs-border-color); transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='#dc3545'; this.style.color='#fff'; this.style.borderColor='#dc3545';" onmouseout="this.style.backgroundColor='var(--bs-body-bg)'; this.style.color='#dc3545'; this.style.borderColor='var(--bs-border-color)';" data-bs-toggle="tooltip" title="حذف محصول">
+                        <i class="bi bi-trash fs-6"></i>
+                      </button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          <% } else { %>
+            
+            <tr>
+              <td colspan="4" class="text-center py-5 border-0">
+                <div class="d-flex flex-column align-items-center justify-content-center" style="color: var(--bs-secondary-color);">
+                  <div class="mb-3 d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 80px; height: 80px; background-color: color-mix(in srgb, var(--bs-body-color) 4%, var(--bs-body-bg));">
+                    <i class="bi bi-inbox fs-1" style="color: var(--bs-tertiary-color);"></i>
+                  </div>
+                  <h5 class="fw-bold mb-2" style="color: var(--bs-emphasis-color);">هیچ محصولی ثبت نشده است!</h5>
+                  <span class="small opacity-75">از دکمه ثبت محصول جدید برای افزودن آیتم به منو استفاده کنید.</span>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+        </div>
+
+
+        <div class="tab-pane fade" id="tab-orders">
+          <div class="card shadow-main rounded-md mb-3">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="h5 text-main mb-0">سفارش‌ها</h2>
+                <small class="text-muted">مدیریت وضعیت سفارش‌ها</small>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <ul class="nav nav-pills gap-2" id="ordersPills" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="p-pending" data-bs-toggle="pill" data-bs-target="#pendingBox" type="button">
+                    ثبت شده <span class="badge bg-warning text-dark ms-2"><%= pendingOrders?.length || 0 %></span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="p-preparing" data-bs-toggle="pill" data-bs-target="#preparingBox" type="button">
+                    در حال آماده‌سازی <span class="badge bg-info text-dark ms-2"><%= preparingOrders?.length || 0 %></span>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="p-delivered" data-bs-toggle="pill" data-bs-target="#deliveredBox" type="button">
+                    تحویل شده <span class="badge bg-success text-white ms-2"><%= deliveredOrders?.length || 0 %></span>
+                  </button>
+                </li>
+              </ul>
+
+              <div class="tab-content mt-3">
+
+                <div class="tab-pane fade show active" id="pendingBox">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle admin-table mb-0" id="pendingTable">
+                      <thead class="table-dark">
+                        <tr>
+                          <th style="width: 16%;">شماره میز</th>
+                          <th>جزئیات سفارش</th>
+                          <th style="width: 18%;">مبلغ کل</th>
+                          <th style="width: 18%;">عملیات</th>
+                        </tr>
+                      </thead>
+                      <tbody id="pending-orders-body">
+                        <% if (pendingOrders && pendingOrders.length > 0) { %>
+                          <% pendingOrders.forEach(order => { %>
+                            <tr data-id="<%= order._id %>">
+                              <td class="fw-semibold text-main">میز <%= order.table %></td>
+                              <td>
+                                <ul class="list-unstyled mb-0 small">
+                                  <% order.order.forEach(item => { %>
+                                    <li class="text-muted">
+                                      <%= item.productId ? item.productId.iteamName : 'محصول حذف شده' %> × <%= item.quantity %>
+                                    </li>
+                                  <% }) %>
+                                </ul>
+                              </td>
+                              <td class="fw-semibold text-main">
+                                <%= order.order.reduce((sum, item) => sum + (item.productId ? item.productId.price * item.quantity : 0), 0) %> تومان
+                              </td>
+                              <td>
+                                <form method="post" action="/admin/order/status/<%= order._id %>" class="m-0">
+                                  <button class="btn btn-sm btn-main" type="submit">
+                                    <i class="bi bi-play-fill"></i> شروع آماده‌سازی
+                                  </button>
+                                </form>
+                              </td>
+                            </tr>
+                          <% }) %>
+                        <% } else { %>
+                          <tr><td colspan="4" class="text-center text-muted py-4">سفارشی ثبت نشده</td></tr>
+                        <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <div class="tab-pane fade" id="preparingBox">
+                  <div class="table-responsive">
+                    <table class="table table-hover align-middle admin-table mb-0" id="preparingTable">
+                      <thead class="table-dark">
+                        <tr>
+                          <th style="width: 16%;">شماره میز</th>
+                          <th>جزئیات سفارش</th>
+                          <th style="width: 18%;">مبلغ کل</th>
+                          <th style="width: 18%;">عملیات</th>
+                        </tr>
+                      </thead>
+                      <tbody id="preparing-orders-body">
+                        <% if (preparingOrders && preparingOrders.length > 0) { %>
+                          <% preparingOrders.forEach(order => { %>
+                            <tr data-id="<%= order._id %>">
+                              <td class="fw-semibold text-main">میز <%= order.table %></td>
+                              <td>
+                                <ul class="list-unstyled mb-0 small">
+                                  <% order.order.forEach(item => { %>
+                                    <li class="text-muted">
+                                      <%= item.productId ? item.productId.iteamName : 'محصول حذف شده' %> × <%= item.quantity %>
+                                    </li>
+                                  <% }) %>
+                                </ul>
+                              </td>
+                              <td class="fw-semibold text-main">
+                                <%= order.order.reduce((sum, item) => sum + (item.productId ? item.productId.price * item.quantity : 0), 0) %> تومان
+                              </td>
+                              <td>
+                                <form method="post" action="/admin/order/status/<%= order._id %>" class="m-0">
+                                  <button class="btn btn-sm btn-main" type="submit">
+                                    <i class="bi bi-check2"></i> تحویل سفارش
+                                  </button>
+                                </form>
+                              </td>
+                            </tr>
+                          <% }) %>
+                        <% } else { %>
+                          <tr><td colspan="4" class="text-center text-muted py-4">سفارشی در حال آماده‌سازی نیست</td></tr>
+                        <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+<div class="tab-pane fade" id="deliveredBox">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle admin-table mb-0" id="deliveredTable">
+      <thead class="table-dark">
+        <tr>
+          <th style="width: 16%;">شماره میز</th>
+          <th>جزئیات سفارش</th>
+          <th style="width: 18%;">مبلغ کل</th>
+          <th style="width: 18%;">عملیات</th>
+        </tr>
+      </thead>
+
+      <tbody id="delivered-orders-body">
+
+        <% if (deliveredOrders && deliveredOrders.length > 0) { %>
+
+          <% deliveredOrders.forEach(order => { %>
+
+            <tr data-id="<%= order._id %>">
+
+              <td class="fw-semibold text-main">
+                میز <%= order.table %>
+              </td>
+
+              <td>
+                <ul class="list-unstyled mb-0 small">
+                  <% order.order.forEach(item => { %>
+                    <li class="text-muted">
+                      <%= item.productId ? item.productId.iteamName : 'محصول حذف شده' %> × <%= item.quantity %>
+                    </li>
+                  <% }) %>
+                </ul>
+              </td>
+
+              <td class="fw-semibold text-main">
+                <%= order.order.reduce((sum, item) => sum + (item.productId ? item.productId.price * item.quantity : 0), 0) %> تومان
+              </td>
+
+              <td>
+                <form method="post" action="/admin/order/delete/<%= order._id %>" class="js-confirm-delete m-0">
+                  <button class="btn btn-sm btn-danger">
+                    <i class="bi bi-trash"></i>
+                    حذف سفارش
+                  </button>
+                </form>
+              </td>
+
+            </tr>
+
+          <% }) %>
+
+        <% } else { %>
+
+          <tr>
+            <td colspan="4" class="text-center text-muted py-4">
+              سفارشی تحویل داده نشده
+            </td>
+          </tr>
+
+        <% } %>
+
+      </tbody>
+    </table>
+    <div class="text-end mt-3">
+  <form method="post" action="/admin/orders/delete-delivered" class="js-confirm-delete d-inline">
+    <button class="btn btn-danger">
+      <i class="bi bi-trash3-fill"></i>
+      حذف همه سفارش‌های تحویل داده شده
+    </button>
+  </form>
+</div>
+
+  </div>
+</div>
+
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tab-pane fade" id="tab-messages">
+          <div class="card shadow-main rounded-md">
+            <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+              <div>
+                <h2 class="h5 text-main mb-0">پیام‌های کاربران</h2>
+                <small class="text-muted">مشاهده و حذف پیام‌ها</small>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle admin-table mb-0" id="messagesTable">
+                  <thead class="table-dark">
+                    <tr>
+                      <th style="width: 16%;">نام</th>
+                      <th style="width: 22%;">ایمیل</th>
+                      <th>پیام</th>
+                      <th style="width: 18%;">عملیات</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (messages && messages.length > 0) { %>
+                      <% messages.forEach(message => { %>
+                        <tr>
+                          <td class="fw-semibold text-main"><%= message.name %></td>
+                          <td class="text-muted small"><%= message.email %></td>
+                          <td class="text-muted small">
+                            <span class="js-msg" data-full="<%= String(message.message||'').replace(/"/g, '&quot;') %>">
+                              <%= (message.message || '').slice(0, 80) %><%= (message.message || '').length > 80 ? '…' : '' %>
+                            </span>
+                            <% if ((message.message || '').length > 80) { %>
+                              <button type="button" class="btn btn-link btn-sm p-0 ms-2 js-open-msg">نمایش کامل</button>
+                            <% } %>
+                          </td>
+                          <td>
+                            <form action="/admin/deleteM/<%= message._id %>" method="post" class="m-0 js-confirm-delete">
+                              <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> حذف
+                              </button>
+                            </form>
+                          </td>
+                        </tr>
+                      <% }) %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="4" class="text-center text-muted py-4">هیچ پیامی ثبت نشده</td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-categories">
+           <div class="card shadow-main rounded-md p-4">
+             <h4 class="text-main">لیست دسته‌بندی‌ها</h4>
+                <div class="header-shell shadow-main  border-0 p-4 mb-4 mx-auto" style="border-radius: 20px; backdrop-filter: blur(14px); max-width: 500px;">
+                  
+                  <div class="d-flex align-items-center  mb-4 pb-2 border-bottom border-secondary border-opacity-10">
+                    <div class="bg-main text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm me-3" style="width: 45px; height: 45px;">
+                      <i class="bi bi-tags-fill fs-5"></i>
+                    </div>
+                    <div>
+                      <h5 class="m-0 fw-bold text-main">دسته‌بندی جدید</h5>
+                      <p class="text-muted small m-0 mt-1 opacity-75">ایجاد دسته اصلی یا زیرمجموعه</p>
+                    </div>
+                  </div>
+
+                  <form method="post">
+                    <div class="mb-3">
+                      <label class="form-label text-muted small ms-2 fw-medium">نام دسته‌بندی</label>
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="مثال: نوشیدنی‌های گرم"
+                        class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2"
+                        required
+                      >
+                    </div>
+
+                    <% if (categore && categore.length > 0) { %>
+                      <div class="mb-4">
+                        <label class="form-label text-muted small ms-2 fw-medium">دسته‌بندی مادر (اختیاری)</label>
+                        <select name="mother" class="form-select rounded-pill bg-alt border-0 shadow-sm px-4 py-2" style="cursor: pointer;">
+                          <option value="">-- به عنوان دسته‌بندی اصلی --</option>
+                          <% categore.forEach(cat => { %>
+                            <option value="<%= cat.name %>">
+                              <%= cat.name %>
+                            </option>
+                          <% }) %>
+                        </select>
+                      </div>
+                    <% } %>
+
+                    <button type="submit" name="action" value="categore" class="btn btn-main btn-pill w-100 py-2 mt-2 shadow-main fw-bold d-flex align-items-center justify-content-center gap-2 transition-all">
+                      <i class="bi bi-plus-circle fs-5"></i> ثبت دسته‌بندی
+                    </button>
+                  </form>
+                  <div class="category-list">
+                    <% categore.forEach(cat => { %>
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0;">
+                            
+                            <span style="font-weight: bold;"><%= cat.name %></span>
+                            
+                            <form action="/admin/delete-categore/<%= cat._id %>" method="POST" style="margin: 0;">
+                                <button type="submit" 
+                                        onclick="return confirm('آیا مطمئنی میخوای این دسته‌بندی رو پاک کنی؟')"
+                                        style="background-color: #ff4d4d; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
+                                    حذف
+                                </button>
+                            </form>
+                
+                        </div>
+                    <% }) %>
+                </div>
+                
+                </div>
+           </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-settings">
+          <div class="admin-settings-panel header-shell shadow-main border-0 p-4 p-lg-5 mb-5 mx-auto" style="border-radius: 24px; backdrop-filter: blur(14px); max-width: 900px;">
+            
+            <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-secondary border-opacity-10">
+              <i class="bi bi-gear-fill fs-3 text-main me-3"></i>
+              <div>
+                <h4 class="m-0 fw-bold text-main">تنظیمات اصلی سایت</h4>
+                <p class="text-muted small m-0 mt-1 opacity-75">اطلاعات پایه کافه، شبکه‌های اجتماعی و تصاویر را از اینجا مدیریت کنید.</p>
+              </div>
+            </div>
+
+            <form action="/admin" method="post" enctype="multipart/form-data">
+              <div class="row g-4">
+                
+                <div class="col-12 mb-2">
+                  <h6 class="text-main fw-bold mb-0"><i class="bi bi-info-circle me-2"></i>مشخصات پایه</h6>
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">نام کافه</label>
+                  <input type="text" name="coffeeName" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="مثال: کافه موهندس">
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">تعداد میزها</label>
+                  <input type="number" name="tableNumber" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="مثال: 15">
+                </div>
+                
+                <div class="col-12">
+                  <label class="form-label text-muted small ms-2 fw-medium">درباره کافه</label>
+                  <textarea name="aboutCofe" class="form-control bg-alt border-0 shadow-sm px-4 py-3" style="border-radius: 18px;" rows="3" placeholder="توضیحات کوتاه درباره کافه بنویسید..."></textarea>
+                </div>
+
+
+                <div class="col-12 mt-4 mb-2">
+                  <h6 class="text-main fw-bold mb-0"><i class="bi bi-images me-2"></i>رسانه و تصاویر</h6>
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">لوگوی کافه</label>
+                  <input type="file" name="logo" class="form-control rounded-pill bg-alt border-0 shadow-sm px-3 py-2 text-muted">
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">تصاویر محیط کافه</label>
+                  <input type="file" name="cafePicture" multiple class="form-control rounded-pill bg-alt border-0 shadow-sm px-3 py-2 text-muted">
+                </div>
+
+
+                <div class="col-12 mt-4 mb-2">
+                  <h6 class="text-main fw-bold mb-0"><i class="bi bi-geo-alt me-2"></i>ارتباطات و آدرس</h6>
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">شماره تماس</label>
+                  <input type="text" name="phoneNumber" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="021-XXXXXXX" dir="ltr" style="text-align: left;">
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">ایمیل</label>
+                  <input type="text" name="email" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="info@example.com" dir="ltr" style="text-align: left;">
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">ساعت کاری</label>
+                  <input type="text" name="timeWork" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="مثال: ۸ صبح تا ۱۱ شب">
+                </div>
+                
+                <div class="col-md-6">
+                  <label class="form-label text-muted small ms-2 fw-medium">آدرس کامل</label>
+                  <input type="text" name="location" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="تهران، خیابان...">
+                </div>
+
+
+                <div class="col-12 mt-4 mb-2">
+                  <h6 class="text-main fw-bold mb-0"><i class="bi bi-share me-2"></i>شبکه‌های اجتماعی</h6>
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">اینستاگرام</label>
+                  <div class="input-group shadow-sm rounded-pill overflow-hidden">
+                    <span class="input-group-text bg-main text-white border-0 px-3"><i class="bi bi-instagram"></i></span>
+                    <input type="text" name="instagram" class="form-control bg-alt border-0 py-2" placeholder="ID" dir="ltr">
+                  </div>
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">تلگرام</label>
+                  <div class="input-group shadow-sm rounded-pill overflow-hidden">
+                    <span class="input-group-text bg-main text-white border-0 px-3"><i class="bi bi-telegram"></i></span>
+                    <input type="text" name="telegram" class="form-control bg-alt border-0 py-2" placeholder="ID" dir="ltr">
+                  </div>
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">توییتر (X)</label>
+                  <div class="input-group shadow-sm rounded-pill overflow-hidden">
+                    <span class="input-group-text bg-main text-white border-0 px-3"><i class="bi bi-twitter-x"></i></span>
+                    <input type="text" name="twitter" class="form-control bg-alt border-0 py-2" placeholder="ID" dir="ltr">
+                  </div>
+                </div>
+
+
+                <div class="col-12 mt-4 mb-2">
+                  <h6 class="text-main fw-bold mb-0"><i class="bi bi-grid me-2"></i>سایر اطلاعات</h6>
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">داستان کافه</label>
+                  <input type="text" name="cofeStore" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="لینک یا نام فروشگاه">
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">ویژگی‌ها</label>
+                  <input type="text" name="features" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="اینترنت، پارکینگ...">
+                </div>
+                
+                <div class="col-md-4">
+                  <label class="form-label text-muted small ms-2 fw-medium">پیام کوتاه / کامنت</label>
+                  <input type="text" name="coment" class="form-control rounded-pill bg-alt border-0 shadow-sm px-4 py-2" placeholder="متن دلخواه">
+                </div>
+
+                <div class="col-12 mt-5">
+                  <button type="submit" name="action" value="setings" class="btn btn-main btn-pill w-100 py-3 shadow-main fw-bold fs-5 d-flex align-items-center justify-content-center gap-2 transition-all">
+                    <i class="bi bi-check2-circle fs-4"></i> ذخیره تغییرات
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</main>
+<div class="modal fade" id="msgModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content rounded-md shadow-main">
+      <div class="modal-header">
+        <h5 class="modal-title text-main">پیام کاربر</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="بستن"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-muted" id="msgModalBody"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-main-outline" data-bs-dismiss="modal">بستن</button>
+        
+      </div>
+
+
+      
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      function tick() {
+          const d = new Date();
+          const el = document.getElementById('adminClock');
+          if (el) el.textContent = `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+      }
+      tick();
+      setInterval(tick, 30000);
+  
+      document.querySelectorAll('.js-confirm-delete').forEach(form => {
+          form.addEventListener('submit', (e) => { if (!confirm('آیا مطمئن هستید؟')) e.preventDefault(); });
+      });
+  
+      document.getElementById('adminGlobalSearch')?.addEventListener('input', (e) => {
+          const query = e.target.value.toLowerCase();
+          const activePane = document.querySelector('.tab-pane.active');
+          activePane?.querySelectorAll('tbody tr').forEach(tr => {
+              tr.style.display = tr.innerText.toLowerCase().includes(query) ? '' : 'none';
+          });
+      });
+  
+      const imageInput = document.getElementById('productImageInput');
+      const imagePreview = document.getElementById('productImagePreview');
+      const imagePlaceholder = document.getElementById('productImagePlaceholder');
+      const resetBtn = document.getElementById('btnResetProductForm');
+  
+      imageInput?.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if (file) {
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                  imagePreview.src = ev.target.result;
+                  imagePreview.classList.remove('d-none');
+                  imagePlaceholder.classList.add('d-none');
+              };
+              reader.readAsDataURL(file);
+          }
+      });
+  
+      resetBtn?.addEventListener('click', () => {
+          setTimeout(() => {
+              imagePreview.classList.add('d-none');
+              imagePlaceholder.classList.remove('d-none');
+          }, 10);
+      });
+  
+      const socket = io();
+  
+      function createOrderRow(order) {
+          const tr = document.createElement("tr");
+          tr.dataset.id = order._id;
+          
+          const total = (order.order || []).reduce((sum, item) => sum + (item.productId?.price || 0) * (item.quantity || 1), 0);
+          const itemsHtml = (order.order || []).map(item => 
+              `<li class="text-muted">${item.productId?.iteamName || 'محصول حذف شده'} × ${item.quantity}</li>`
+          ).join("");
+  
+          let innerHtml = `
+              <td class="fw-semibold text-main">میز ${order.table || "-"}</td>
+              <td><ul class="list-unstyled mb-0 small">${itemsHtml}</ul></td>
+              <td class="fw-semibold text-main">${total} تومان</td>
+          `;
+  
+if (order.status !== 'delivered') {
+    const nextStatus = order.status === 'pending' ? 'preparing' : 'delivered';
+    const actionText = order.status === 'pending' ? 'شروع آماده‌سازی' : 'تحویل سفارش';
+    const icon = order.status === 'pending' ? 'bi-play-fill' : 'bi-check2';
+
+    innerHtml += `
+        <td>
+            <form method="post" action="/admin/order/status/${order._id}" class="m-0">
+                <input type="hidden" name="status" value="${nextStatus}">
+                <button class="btn btn-sm btn-main" type="submit">
+                    <i class="bi ${icon}"></i> ${actionText}
+                </button>
+            </form>
+        </td>
+    `;
+}
+
+  
+          tr.innerHTML = innerHtml;
+          return tr;
+      }
+  
+      socket.on("newOrder", (order) => {
+          const target = document.querySelector("#pending-orders-body");
+          if (target) {
+              const emptyRow = target.querySelector('td[colspan]');
+              if (emptyRow) emptyRow.parentElement.remove();
+              
+              target.prepend(createOrderRow(order));
+          }
+      });
+  
+      socket.on("orderStatusChanged", (order) => {
+          document.querySelector(`[data-id="${order._id}"]`)?.remove();
+          
+          const target = document.querySelector(`#${order.status}-orders-body`);
+          if (target) {
+              const emptyRow = target.querySelector('td[colspan]');
+              if (emptyRow) emptyRow.parentElement.remove();
+              
+              target.prepend(createOrderRow(order));
+          }
+      });
+  });
+  </script>
+  
+  
+
+<%- include('./includes/Footer.ejs') %>

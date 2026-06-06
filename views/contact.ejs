@@ -1,0 +1,175 @@
+<%- include('./includes/header.ejs') %>
+
+<main class="contact-page py-4 py-lg-5">
+
+  <section class="container mb-4 mb-lg-5">
+    <div class="card shadow-main rounded-md border-0 overflow-hidden">
+      <div class="position-relative">
+        <div class="p-4 p-lg-5 text-center">
+          <span class="badge bg-alt text-main mb-3">تماس با ما</span>
+          <h1 class="display-5 fw-bold text-main mb-3">تماس با ما ☕</h1>
+          <p class="lead text-muted mb-0">
+            برای هرگونه سوال، پیشنهاد یا همکاری با ما در ارتباط باشید. در اسرع وقت پاسخ می‌دهیم.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="row g-4 g-lg-5">
+
+      <div class="col-lg-4">
+        <div class="card shadow-main rounded-md border-0 h-100">
+          <div class="card-header bg-main text-white text-center">
+            <h3 class="h5 mb-0"><i class="bi bi-chat-dots ms-1"></i> اطلاعات تماس</h3>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <i class="bi bi-geo-alt fs-2 text-main"></i>
+              <div>
+                <div class="fw-semibold text-main">آدرس</div>
+                <div class="text-muted small"><%= setings.location %></div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <i class="bi bi-telephone fs-2 text-main"></i>
+              <div>
+                <div class="fw-semibold text-main">تلفن</div>
+                <div class="text-muted small"><%= setings.phoneNumber %></div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3 mb-4">
+              <i class="bi bi-envelope fs-2 text-main"></i>
+              <div>
+                <div class="fw-semibold text-main">ایمیل</div>
+                <div class="text-muted small"><%= setings.email %></div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-clock fs-2 text-main"></i>
+              <div>
+                <div class="fw-semibold text-main">ساعات کاری</div>
+                <div class="text-muted small"><%= setings.timeWork %></div>
+              </div>
+            </div>
+
+            <hr class="my-4 opacity-25">
+
+            <div class="d-flex gap-3 justify-content-center">
+              <a href="https://instagram.com/<%= setings.instagram %>" class="text-accent" target="_blank" rel="noopener" aria-label="اینستاگرام">
+                <i class="bi bi-instagram fs-4"></i>
+              </a>
+              <a href="https://telegram.me/<%= setings.telegram %>" class="text-accent" target="_blank" rel="noopener" aria-label="تلگرام">
+                <i class="bi bi-telegram fs-4"></i>
+              </a>
+              <a href="https://twitter.com/<%= setings.twitter %>" class="text-accent" target="_blank" rel="noopener" aria-label="توییتر">
+                <i class="bi bi-twitter-x fs-4"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="card shadow-main rounded-md border-0 h-100">
+          <div class="card-header bg-main text-white text-center">
+            <h3 class="h5 mb-0"><i class="bi bi-envelope ms-1"></i> ارسال پیام</h3>
+          </div>
+
+          <div class="card-body p-4 p-lg-5">
+            <form class="contact-form" action="/contact" method="POST" id="contactForm">
+              <div class="row g-3">
+
+                <div class="col-md-6">
+                  <label for="name" class="form-label text-main">نام کامل</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="(اختیاری) نام شما"
+                  />
+                </div>
+
+                <div class="col-md-6">
+                  <label for="email" class="form-label text-main">ایمیل</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="(اختیاری) ایمیل شما"
+                  />
+                  <div class="form-text text-muted">اگر ایمیل وارد کنید، می‌توانیم پاسخ دقیق‌تر بدهیم.</div>
+                </div>
+
+                <div class="col-12">
+                  <label for="message" class="form-label text-main">پیام شما</label>
+                  <textarea
+                    class="form-control"
+                    id="message"
+                    name="message"
+                    rows="6"
+                    required
+                    placeholder="متن پیام..."
+                  ></textarea>
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn btn-main btn-lg w-100" id="contactSubmitBtn">
+                    <i class="bi bi-send ms-1"></i> ارسال پیام
+                  </button>
+                </div>
+
+                <div class="col-12">
+                  <div class="alert alert-info mb-0 small">
+                    بعد از ارسال، به صفحه اصلی هدایت می‌شوید.
+                  </div>
+                </div>
+
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  const form = document.getElementById('contactForm');
+  const btn = document.getElementById('contactSubmitBtn');
+
+  form?.addEventListener('submit', function(){
+    if(!btn) return;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm ms-2" role="status" aria-hidden="true"></span> در حال ارسال...';
+  });
+
+  const els = document.querySelectorAll('.contact-page .card');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.style.transform = 'translateY(0)';
+      e.target.style.opacity = '1';
+      io.unobserve(e.target);
+    });
+  }, { threshold: 0.08 });
+
+  els.forEach(el=>{
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(10px)';
+    el.style.transition = 'all 420ms ease';
+    io.observe(el);
+  });
+})();
+</script>
+
+<%- include('./includes/Footer.ejs') %>

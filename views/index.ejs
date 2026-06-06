@@ -1,0 +1,504 @@
+<%- include('./includes/header.ejs') %>
+
+<main class="menu py-4 py-lg-5">
+
+  <button
+    id="floatingCartBtn"
+    type="button"
+    class="btn btn-main shadow-main rounded-md position-fixed bottom-0 start-0 m-3 d-flex align-items-center gap-2"
+    style="z-index: 1500"
+    aria-label="لیست سفارش"
+  >
+    <span class="fw-bold fs-6">لیست سفارش</span>
+    <span class="badge bg-main text-main js-cart-total-count">0</span>
+  </button>
+
+<section class="hero mb-5">
+  <div class="hero-wrap header-shell rounded-md border-0 overflow-hidden position-relative">
+    <div class="hero-bg"></div>
+    <div class="hero-glow hero-glow--1"></div>
+    <div class="hero-glow hero-glow--2"></div>
+
+    <div class="container position-relative py-5 py-lg-6">
+      <div class="row align-items-center g-4">
+        
+        <div class="col-lg-6 text-center text-lg-start">
+          <div class="hero-kicker badge bg-alt text-main shadow-main mb-3">کافه <%= setings.coffeeName %> ☕</div>
+
+          <h2 class="hero-title fw-bold mb-3">
+            منوی کافه <%= setings.coffeeName %>
+            <span class="hero-emoji">☕</span>
+          </h2>
+
+          <p class="hero-subtitle text-muted mb-4 mx-auto mx-lg-0">
+            بهترین قهوه‌ها و نوشیدنی‌های تازه با طعم‌های منحصربه‌فرد.
+            انتخاب کنید و لذت ببرید!
+          </p>
+
+          <div class="d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
+            <a href="#products" class="btn btn-main btn-pill shadow-main">
+              مشاهده محصولات <i class="bi bi-arrow-left ms-1"></i>
+            </a>
+          </div>
+
+          <% const features = setings.features.split(".").map(f => f.trim()).filter(f => f) %>
+        
+          <div class="hero-badges mt-4 d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
+            <% features.forEach(feature => { %>
+              <span class="badge bg-alt text-main shadow-main rounded-pill px-3 py-2"><%= feature %></span>
+            <% }) %>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="hero-media mx-auto">
+            <div class="hero-media-glass">
+              <img
+                src="/assets/images/others/hero.png"
+                alt="تصویر هیرو کافه موهندس"
+                class="hero-image"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+
+            <span class="steam steam-1"></span>
+            <span class="steam steam-2"></span>
+            <span class="steam steam-3"></span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+<section id="products" class="container products-section">
+  <div class="products-head d-flex align-items-end justify-content-between flex-wrap gap-3 mb-4">
+    <div>
+      <div class="header-shell px-3 py-1 text-main shadow-sm mb-2 d-inline-block" style="border-radius: 18px; font-size: 0.85rem; font-weight: 500;">
+        منوی امروز
+      </div>
+      <h2 class="h3 text-main m-0 fw-bold">محصولات منو</h2>
+      <div class="text-muted small mt-1">انتخاب کن، تعداد رو تنظیم کن، مستقیم میره توی سبد 🛒</div>
+    </div>
+
+    <div class="products-tools d-flex gap-2 align-items-center flex-nowrap overflow-auto pb-1" style="max-width: 100%;">
+      <div class="input-group products-search header-shell shadow-sm border-0" style="border-radius: 18px; overflow: hidden; min-width: 180px;">
+        <span class="input-group-text bg-transparent border-0 pe-1">
+          <i class="bi bi-search text-muted"></i>
+        </span>
+        <input
+          id="productSearch"
+          type="text"
+          class="form-control border-0 bg-transparent shadow-none"
+          placeholder="جستجوی محصول..."
+          aria-label="جستجوی محصول"
+        />
+      </div>
+
+      <div class="input-group products-sort header-shell shadow-sm border-0" style="border-radius: 18px; overflow: hidden; min-width: 160px;">
+        <span class="input-group-text bg-transparent border-0 pe-1">
+          <i class="bi bi-filter text-muted"></i>
+        </span>
+        <select id="productSort" class="form-select border-0 bg-transparent shadow-none" aria-label="مرتب‌سازی">
+          <option value="default">مرتب‌سازی</option>
+          <option value="price_asc">قیمت: کم به زیاد</option>
+          <option value="price_desc">قیمت: زیاد به کم</option>
+          <option value="name_asc">نام: الف → ی</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4" id="productsGrid">
+    <% if(iteams && iteams.length > 0){ %>
+      <% iteams.forEach(item => { %>
+        <div
+          class="col-12 col-sm-6 col-md-4 col-lg-3 product-col"
+          data-name="<%= String(item.iteamName || '').toLowerCase() %>"
+          data-price="<%= Number(String(item.price || '0').replace(/[^\d]/g,'') || 0) %>"
+        >
+          <article class="product-card h-100 border-0 d-flex flex-column shadow-sm" style="border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 12px 25px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.04)';">
+            
+            <div class="product-media position-relative" style="height: 220px; overflow: hidden;">
+              <img
+                src="<%= item.picture %>"
+                class="product-img w-100 h-100 object-fit-cover"
+                alt="<%= item.iteamName %>"
+                loading="lazy"
+                style="transition: transform 0.5s ease;"
+                onmouseover="this.style.transform='scale(1.08)'"
+                onmouseout="this.style.transform='scale(1)'"
+              />
+
+              <div class="position-absolute bg-body bg-opacity-50 d-flex align-items-center justify-content-center px-3 py-1" style="bottom: 12px; right: 12px; backdrop-filter: blur(8px); border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <span class="fw-bolder fs-6" style="color: var(--bs-main, #0d6efd);">
+                  <%= (Number(String(item.price || '0').replace(/[^\d]/g,'')) || 0).toLocaleString('en-US') %>
+                </span>
+                <span class="small text-muted ms-1 fw-bold" style="font-size: 0.7rem;">تومان</span>
+              </div>
+              
+              <div class="position-absolute shadow-sm bg-main" style="top: 12px; left: 12px; border-radius: 8px; padding: 4px 10px;">
+                <span style="font-size: 0.75rem; font-weight: 700;" class="text-dark">
+                  <i class="bi bi-tag-fill opacity-75 me-1"></i>
+                  <%= item.categore ? item.categore.name : 'بدون دسته‌بندی' %>
+                </span>              
+              </div>
+            </div>
+
+            <div class="product-body p-3 flex-grow-1">
+              <h3 class="product-title h6 fw-bold mb-2 text-main"><%= item.iteamName %></h3>
+              <p class="product-desc text-secondary small mb-0" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.6; font-size: 0.8rem;">
+                <%= item.about || 'بدون توضیحات' %>
+              </p>
+            </div>
+
+            <div class="product-footer p-3 pt-0 mt-auto">
+              <div class="product-actions" data-id="<%= item._id %>">
+                
+                <div class="d-flex align-items-center w-100">
+                  <button
+                    type="button"
+                    class="btn btn-main w-100 py-2 btn-add-first"
+                    style="border-radius: 12px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s;"
+                    data-id="<%= item._id %>"
+                  >
+                    افزودن به سبد <i class="bi bi-cart-plus ms-1 fs-5 align-middle"></i>
+                  </button>
+
+                  <div class="qty-wrap d-none align-items-center justify-content-between w-100 p-1" style="background: #f8f9fa; border-radius: 14px; border: 1px solid #e9ecef;">
+                    <button
+                      type="button"
+                      class="btn btn-sm bg-white btn-dec shadow-sm d-flex align-items-center justify-content-center"
+                      style="width: 32px; height: 32px; border-radius: 10px; color: #dc3545;"
+                      data-id="<%= item._id %>"
+                    >
+                      <i class="bi bi-dash-lg fw-bold"></i>
+                    </button>
+
+                    <span class="qty-badge fw-bold count text-dark" id="count-<%= item._id %>" style="min-width: 30px; text-align: center; font-size: 0.9rem;">1</span>
+
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-main btn-inc shadow-sm d-flex align-items-center justify-content-center"
+                      style="width: 32px; height: 32px; border-radius: 10px;"
+                      data-id="<%= item._id %>"
+                    >
+                      <i class="bi bi-plus-lg fw-bold"></i>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </article>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <div class="col-12 text-center mt-5">
+         <div class="p-5 mx-auto bg-white shadow-sm" style="border-radius: 20px; max-width: 400px; border: 1px solid #f0f0f0;">
+          <i class="bi bi-basket2 fs-1 d-block mb-3 text-muted opacity-50"></i>
+          <h5 class="fw-bold text-dark">هنوز محصولی ثبت نشده است!</h5>
+          <p class="mb-0 text-secondary small mt-2">لیست منو به‌زودی به‌روزرسانی خواهد شد.</p>
+        </div>
+      </div>
+    <% } %>
+</div>
+
+  <div id="noResult" class="text-center mt-4 d-none">
+    <div class="alert header-shell text-main shadow-main border-0 py-4" style="border-radius: 18px;">
+      <i class="bi bi-search fs-1 d-block mb-3 opacity-50"></i>
+      محصولی با این عبارت پیدا نشد.
+    </div>
+  </div>
+</section>
+
+
+
+
+<section class="gallery mt-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
+      <div>
+        <h2 class="h3 text-main m-0">تصاویری از فضای کافه</h2>
+        <div class="text-muted small mt-1">برای حس‌و‌حال کافه 😌</div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-alt text-main shadow-main">فضای داخلی</span>
+        <span class="badge bg-alt text-main shadow-main">وینتیج</span>
+        <span class="badge bg-alt text-main shadow-main">کتابخانه‌ای</span>
+        <span class="badge bg-alt text-main shadow-main">قهوه و شیرینی</span>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-3">
+        <button
+          class="gallery-card shadow-main rounded-md"
+          type="button"
+          data-gallery
+          data-src="<%= setings.cafePicture[0] %>"
+          data-title="فضای داخلی کافه"
+        >
+          <img src="<%= setings.cafePicture[0] %>" alt="فضای داخلی کافه" loading="lazy" />
+          <div class="gallery-overlay">
+            <div class="gallery-chip">
+              <i class="bi bi-arrows-fullscreen ms-1"></i>
+              مشاهده
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-title">فضای داخلی کافه</div>
+              <div class="gallery-sub text-white-50">گرم · مینیمال · آرام</div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <button
+          class="gallery-card shadow-main rounded-md"
+          type="button"
+          data-gallery
+          data-src="<%= setings.cafePicture[1] %>"
+          data-title="کافه وینتیج"
+        >
+          <img src="<%= setings.cafePicture[1] %>" alt="کافه وینتیج" loading="lazy" />
+          <div class="gallery-overlay">
+            <div class="gallery-chip">
+              <i class="bi bi-arrows-fullscreen ms-1"></i>
+              مشاهده
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-title">کافه وینتیج</div>
+              <div class="gallery-sub text-white-50">نوستالژیک · گرم · کلاسیک</div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <button
+          class="gallery-card shadow-main rounded-md"
+          type="button"
+          data-gallery
+          data-src="<%= setings.cafePicture[2] %>"
+          data-title="کافه با تم کتابخانه‌ای"
+        >
+          <img src="<%= setings.cafePicture[2] %>" alt="کافه با تم کتابخانه‌ای" loading="lazy" />
+          <div class="gallery-overlay">
+            <div class="gallery-chip">
+              <i class="bi bi-arrows-fullscreen ms-1"></i>
+              مشاهده
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-title">تم کتابخانه‌ای</div>
+              <div class="gallery-sub text-white-50">مطالعه · سکوت · تمرکز</div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <div class="col-md-6 col-lg-3">
+        <button
+          class="gallery-card shadow-main rounded-md"
+          type="button"
+          data-gallery
+          data-src="<%= setings.cafePicture[3] %>"
+          data-title="قهوه و شیرینی"
+        >
+          <img src="<%= setings.cafePicture[3] %>" alt="قهوه و شیرینی" loading="lazy" />
+          <div class="gallery-overlay">
+            <div class="gallery-chip">
+              <i class="bi bi-arrows-fullscreen ms-1"></i>
+              مشاهده
+            </div>
+            <div class="gallery-caption">
+              <div class="gallery-title">قهوه و شیرینی</div>
+              <div class="gallery-sub text-white-50">خوش‌طعم · تازه · جذاب</div>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-lightbox" id="galleryLightbox" aria-hidden="true">
+    <div class="gallery-lightbox-backdrop" data-close></div>
+
+    <div class="gallery-lightbox-content shadow-main rounded-md" style="max-height: 90vh;">
+      <button class="gallery-lightbox-close btn btn-sm btn-accent" type="button" data-close aria-label="بستن">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="gallery-lightbox-title text-main fw-semibold px-3 pt-3" id="galleryLightboxTitle"></div>
+
+      <div class="p-3 pt-2">
+        <img id="galleryLightboxImg" src="" alt="" style="max-height: 90vh; object-fit: contain;"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+<script>
+  
+(function () {
+
+  const lb = document.getElementById('galleryLightbox');
+  const lbImg = document.getElementById('galleryLightboxImg');
+  const lbTitle = document.getElementById('galleryLightboxTitle');
+
+  if (!lb || !lbImg) return;
+
+  function openLB(src, title){
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    lbImg.src = src;
+    lbImg.alt = title || 'تصویر گالری';
+    if (lbTitle) lbTitle.textContent = title || '';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLB(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', (e)=>{
+    const btn = e.target.closest('[data-gallery]');
+    if (btn){
+      const src = btn.getAttribute('data-src');
+      const title = btn.getAttribute('data-title');
+      if (src) openLB(src, title);
+      return;
+    }
+
+    if (e.target.closest('[data-close]')) closeLB();
+  });
+
+  document.addEventListener('keydown', (e)=>{
+    if (e.key === 'Escape' && lb.classList.contains('is-open')) closeLB();
+  });
+
+  const wrap = document.querySelector('.hero-media-glass');
+  const img = document.querySelector('.hero-image');
+  if(!wrap || !img) return;
+
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  wrap.addEventListener('mousemove', (e)=>{
+    const r = wrap.getBoundingClientRect();
+    const cx = r.left + r.width/2;
+    const cy = r.top + r.height/2;
+    const dx = (e.clientX - cx) / r.width;
+    const dy = (e.clientY - cy) / r.height;
+
+    wrap.style.transform = `translateY(-4px) rotateX(${(-dy*4).toFixed(2)}deg) rotateY(${(dx*6).toFixed(2)}deg)`;
+    img.style.transform = `scale(1.02) translate(${(dx*6).toFixed(1)}px, ${(dy*6).toFixed(1)}px)`;
+  });
+
+  wrap.addEventListener('mouseleave', ()=>{
+    wrap.style.transform = '';
+    img.style.transform = '';
+  });
+
+  function bump(el){
+    if(!el) return;
+    el.style.transition = 'transform 160ms cubic-bezier(.2,.8,.2,1)';
+    el.style.transform = 'scale(1.15)';
+    setTimeout(()=> el.style.transform = 'scale(1)', 160);
+  }
+
+  document.getElementById('btnScrollProducts')?.addEventListener('click', function () {
+    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  document.getElementById('floatingCartBtn')?.addEventListener('click', function () {
+    bump(this);
+    window.location.href = '/cart';
+  });
+
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-add-first, .btn-inc');
+    if (!btn) return;
+
+    const id = btn.getAttribute('data-id');
+    bump(btn);
+
+    if (!window.CartUI?.add) {
+      window.showAppToast?.('CartUI لود نشده. Footer را چک کن.', 'danger');
+      return;
+    }
+    window.CartUI.add(id);
+  });
+
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-dec');
+    if (!btn) return;
+
+    const id = btn.getAttribute('data-id');
+    bump(btn);
+
+    if (!window.CartUI?.decrease) {
+      window.showAppToast?.('CartUI لود نشده. Footer را چک کن.', 'danger');
+      return;
+    }
+    window.CartUI.decrease(id);
+  });
+
+  const search = document.getElementById('productSearch');
+  const noResult = document.getElementById('noResult');
+  search?.addEventListener('input', function () {
+    const q = String(search.value || '').trim().toLowerCase();
+    let visible = 0;
+
+    document.querySelectorAll('.product-col').forEach(col => {
+      const name = String(col.getAttribute('data-name') || '');
+      const match = !q || name.includes(q);
+      col.classList.toggle('d-none', !match);
+      if (match) visible++;
+    });
+
+    noResult?.classList.toggle('d-none', visible !== 0);
+  });
+
+  const sort = document.getElementById('productSort');
+  sort?.addEventListener('change', function () {
+    const mode = sort.value;
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+
+    const items = Array.from(grid.querySelectorAll('.product-col'));
+    items.sort((a, b) => {
+      const nameA = String(a.getAttribute('data-name') || '');
+      const nameB = String(b.getAttribute('data-name') || '');
+      const priceA = Number(a.getAttribute('data-price') || 0);
+      const priceB = Number(b.getAttribute('data-price') || 0);
+
+      if (mode === 'price_asc') return priceA - priceB;
+      if (mode === 'price_desc') return priceB - priceA;
+      if (mode === 'name_asc') return nameA.localeCompare(nameB, 'fa');
+      return 0;
+    });
+
+    items.forEach(it => grid.appendChild(it));
+    window.showAppToast?.('مرتب‌سازی اعمال شد ✅', 'info');
+  });
+
+})();
+</script>
+
+<%- include('./includes/Footer.ejs') %>
