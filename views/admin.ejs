@@ -596,7 +596,6 @@
                         required
                       >
                     </div>
-
                     <% if (categore && categore.length > 0) { %>
                       <div class="mb-4">
                         <label class="form-label text-muted small ms-2 fw-medium">دسته‌بندی مادر (اختیاری)</label>
@@ -610,7 +609,6 @@
                         </select>
                       </div>
                     <% } %>
-
                     <button type="submit" name="action" value="categore" class="btn btn-main btn-pill w-100 py-2 mt-2 shadow-main fw-bold d-flex align-items-center justify-content-center gap-2 transition-all">
                       <i class="bi bi-plus-circle fs-5"></i> ثبت دسته‌بندی
                     </button>
@@ -622,7 +620,7 @@
                             <span style="font-weight: bold;"><%= cat.name %></span>
                             
                             <form action="/admin/delete-categore/<%= cat._id %>" method="POST" style="margin: 0;">
-                                <button type="submit" 
+                                <button type="submit"
                                         onclick="return confirm('آیا مطمئنی میخوای این دسته‌بندی رو پاک کنی؟')"
                                         style="background-color: #ff4d4d; color: white; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer;">
                                     حذف
