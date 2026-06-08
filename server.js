@@ -143,13 +143,29 @@ mongoose.connect(dbURI)
 
 app.use(async (req, res, next) => {
   try {
-    const setings = await Seting.findOne().sort({ _id: -1})
-    res.locals.setings = setings || {};
+    const setings = await Seting.findOne().sort({ _id: -1 });
+
+    const defaultSetings = {
+      title: "",
+      description: "",
+      features: "",
+      phone: "",
+      address: "",
+      instagram: "",
+      telegram: "",
+    };
+
+    res.locals.setings = {
+      ...defaultSetings,
+      ...(setings ? setings.toObject() : {})
+    };
+
     next();
   } catch (err) {
     next(err);
   }
 });
+
 app.use((req, res, next) => {
 
   if (req.body) {
