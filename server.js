@@ -113,8 +113,8 @@ const upload = multer({
 
 ////////////////////////////////////////////////
 
-const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
-// const dbURI = 'mongodb://localhost:27017/cofe'
+// const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
+const dbURI = 'mongodb://localhost:27017/cofe'
 
 const PORT = process.env.PORT || 3000
 
