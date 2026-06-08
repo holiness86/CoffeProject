@@ -41,7 +41,7 @@
             </a>
           </div>
 
-          <% const features = setings.features.split(".").map(f => f.trim()).filter(f => f) %>
+          <% const features = ((setings && setings.features) || "").split(".").map(f => f.trim()).filter(f => f) %>
         
           <div class="hero-badges mt-4 d-flex justify-content-center justify-content-lg-start gap-2 flex-wrap">
             <% features.forEach(feature => { %>
