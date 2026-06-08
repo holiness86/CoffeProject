@@ -153,6 +153,7 @@ app.use(async (req, res, next) => {
       address: "",
       instagram: "",
       telegram: "",
+      cafePicture: []   // مهم
     };
 
     res.locals.setings = {
@@ -165,6 +166,7 @@ app.use(async (req, res, next) => {
     next(err);
   }
 });
+
 
 app.use((req, res, next) => {
 
