@@ -113,8 +113,8 @@ const upload = multer({
 
 ////////////////////////////////////////////////
 
-// const dbURI = 'mongodb://admin:yQrmVnas1e4LnM2JWaYa@coffe-cmf-service:27017/admin'
-const dbURI = 'mongodb://localhost:27017/cofe'
+const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
+// const dbURI = 'mongodb://localhost:27017/cofe'
 
 const PORT = process.env.PORT || 3000
 
@@ -545,40 +545,28 @@ app.get('/admin', isAdmin, async (req, res) => {
 });
 
 app.post('/admin/delete/:id', async (req, res) => {
-
   try {
-
     const item = await Iteam.findById(req.params.id);
-
     if (!item) {
       return res.redirect('/admin');
     }
-
     if (item.picture) {
-
       const imagePath = path.join(
         __dirname,
         'public',
         item.picture.replace(/^\/+/, '')
       );      
-
       fs.unlink(imagePath, err => {
         if (err) console.log(err);
       });
-
     }
-
     await Iteam.findByIdAndDelete(req.params.id);
-
     res.redirect('/admin');
-
   } catch (err) {
     console.log(err);
     res.redirect('/admin');
   }
-
 });
-
 app.get('/admin/edit/:id' , (req , res) => {
   const id = req.params.id;
   Iteam.findById(id)
@@ -588,17 +576,11 @@ app.get('/admin/edit/:id' , (req , res) => {
     })
     .catch(e => console.log(e))
 })
-
-
-
-
 app.post('/admin/update/:id', upload.fields([{ name: 'picture', maxCount: 1 }]), async (req, res) => {
   try {
     const { iteamName, price, about, categore } = req.body;
     const item = await Iteam.findById(req.params.id);
-
     if (!item) return res.redirect('/admin');
-
     if (req.files && req.files.picture) {
       if (item.picture) {
         const oldImagePath = path.join(__dirname, 'public', item.picture.replace(/^\/+/, ''));
@@ -606,12 +588,10 @@ app.post('/admin/update/:id', upload.fields([{ name: 'picture', maxCount: 1 }]),
       }
       item.picture = `/uploads/products/${req.files.picture[0].filename}`;
     }
-
     item.iteamName = iteamName;
     item.price = price;
     item.about = about;
     item.categore = categore;
-
     await item.save();
     res.redirect('/admin');
   } catch (err) {
@@ -619,94 +599,60 @@ app.post('/admin/update/:id', upload.fields([{ name: 'picture', maxCount: 1 }]),
     res.status(500).send("خطا در به‌روزرسانی محصول");
   }
 });
-
 app.post('/admin/deleteM/:id', (req, res) => {
   const id = req.params.id;
-
   Message.findByIdAndDelete(id)
     .then(() => {
       res.redirect('/admin');
     })
     .catch(err => console.log(err));
 });
-
 app.post("/admin/order/status/:id", isAdmin, async (req, res) => {
   try {
-
     const order = await Order.findById(req.params.id)
-
     if (!order) {
       return res.status(404).send("order not found")
     }
-
     if (order.status === "pending") {
       order.status = "preparing"
     }
     else if (order.status === "preparing") {
       order.status = "delivered"
     }
-
     await order.save()
-
     const fullOrder = await Order
       .findById(order._id)
       .populate("order.productId")
-
     const io = req.app.get("io")
-
     io.emit("orderStatusChanged", fullOrder)
-
     res.redirect("/admin")
-
   } catch (err) {
     console.log(err)
     res.status(500).send("status error")
   }
 })
-
-
-
-
 app.post("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error("Logout error:", err);
       return res.status(500).render("logout", { error: "خطا در خروج از حساب" });
     }
-
     res.clearCookie("connect.sid", { path: "/" });
-
-
-
     return res.redirect("/");
   });
 });
-
 app.get("/logout", (req, res) => {
   res.render("logout", { error: null });
 });
-
-
-
 app.post("/admin/order/delete/:id", isAdmin, async (req, res) => {
   try {
-
     await Order.findByIdAndDelete(req.params.id)
-
     res.redirect("/admin")
-
   } catch (err) {
-
     console.log(err)
     res.status(500).send("delete error")
-
   }
 })
-
-
-
-// test
-
 app.post("/admin/orders/delete-delivered", isAdmin, async (req, res) => {
   try {
 
