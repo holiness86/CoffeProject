@@ -395,17 +395,26 @@ app.post('/admin/delete-categore/:id', isAdmin, async (req, res) => {
 app.post("/order", async (req, res) => {
   try {
     const sessionId = req.cookies.sessionId;
+    const cart = await Cart
+      .findOne({ sessionId })
+      .populate("items.productId");
+    if (!cart || cart.items.length === 0) {
+      return res.redirect("/cart");
+    }
+    const orderItems = cart.items.map(item => ({
+      productId: item.productId._id,
+      quantity: item.quantity
+    }));
     const order = new Order({
       table: req.body.table,
-      order: req.body.order,
+      order: orderItems,
       status: "pending"
     });
     await order.save();
     const fullOrder = await Order
       .findById(order._id)
       .populate("order.productId");
-    const io = req.app.get("io");
-    io.emit("newOrder", fullOrder);
+    req.app.get("io").emit("newOrder", fullOrder);
     await Cart.deleteOne({ sessionId });
     res.redirect("/success");
   } catch (err) {
