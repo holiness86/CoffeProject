@@ -28,6 +28,28 @@
                   <label class="form-label text-main fw-bold">قیمت (تومان)</label>
                   <input type="number" class="form-control" name="price" value="<%= iteam.price %>" required>
                 </div>
+                
+
+<div class="col-md-6">
+  <label class="form-label text-main fw-bold">دسته‌بندی</label>
+
+  <select name="categore" class="form-select">
+    <option value="">بدون دسته‌بندی</option>
+
+    <% categories.forEach(category => { %>
+      <option 
+        value="<%= category._id %>" 
+        <%= (iteam.categore && String(iteam.categore) === String(category._id)) ? 'selected' : '' %>>
+        <%= category.name %>
+      </option>
+    <% }) %>
+
+  </select>
+
+</div>
+
+
+
 
                 <div class="col-12">
                   <label class="form-label text-main fw-bold">توضیحات</label>

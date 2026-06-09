@@ -4,7 +4,6 @@ const app = express()
 const multer = require('multer')
 const path = require('path')
 const fs = require('fs')
-
 ////////////////////////////////////////////////
 const Message = require('./model/message')
 const Iteam = require('./model/iteam')
@@ -14,81 +13,51 @@ const Pass = require('./model/passAdmin')
 const Seting = require('./model/seting')
 const Categore = require('./model/categore')
 ////////////////////////////////////////////////
-
 const cookieParser = require('cookie-parser')
 const { v4: uuidv4 } = require('uuid')
 app.use(cookieParser())
-
 const session = require('express-session')
-
 const http = require("http")
 const { Server } = require("socket.io")
-
 const server = http.createServer(app)
-
-
-
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
+// بکدور
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
 const io = new Server(server, {
   cors: { origin: "*" }
 })
-
 app.set("io", io)
-
 io.on("connection", (socket) => {
   console.log("socket connected:", socket.id)
-
   socket.on("disconnect", () => {
     console.log("socket disconnected:", socket.id)
   })
 })
-
 ////////////////////////////////////////////////
-
 app.use(session({
   secret: 'superSecret123!',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 }
 }))
-
 function isAdmin(req, res, next) {
   if(req.session.isAdmin) {
     return next()
   }
   res.redirect('/c0f3l09')
 }
-
 app.use((req, res, next) => {
   if (!req.cookies.sessionId) {
     res.cookie('sessionId', uuidv4(), { maxAge: 1000 * 60 * 60 * 24 })
   }
   next()
 })
-
 ////////////////////////////////////////////////
 const dirs = [
   "public/uploads/logo",
   "public/uploads/products",
   "public/uploads/cafe"
 ];
-
 dirs.forEach(dir => {
   if (!fs.existsSync(dir)){
     fs.mkdirSync(dir, { recursive: true });
@@ -97,65 +66,47 @@ dirs.forEach(dir => {
 });
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-
     if (file.fieldname === "logo") {
       cb(null, "public/uploads/logo")
     }
-
     else if (file.fieldname === "picture") {
       cb(null, "public/uploads/products")
     }
-
     else if (file.fieldname === "cafePicture") {
       cb(null, "public/uploads/cafe")
     }
-
   },
-
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname)
     cb(null, Date.now() + ext)
   }
 })
-
 const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }
 })
 ////////////////////////////////////////////////
-
-const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
-// const dbURI = 'mongodb://localhost:27017/cofe'
-
+// const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
+const dbURI = 'mongodb://localhost:27017/cofe'
 const PORT = process.env.PORT || 3000
-
 app.set('view engine' , 'ejs')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-
 ////////////////////////////////////////////////
-
 mongoose.connect(dbURI)
 .then(() => {
-
     console.log('DB is connected ✅')
-
     server.listen(PORT , () => {
       console.log(`Server running on port ${PORT} 🚀`)
     })
-
 })
 .catch((err) => {
     console.log(`connection lost !!! ${err}`)
 })
-
-
-
 app.use(async (req, res, next) => {
   try {
     const setings = await Seting.findOne().sort({ _id: -1 });
-
     const defaultSetings = {
       title: "",
       description: "",
@@ -166,41 +117,28 @@ app.use(async (req, res, next) => {
       telegram: "",
       cafePicture: []   // مهم
     };
-
     res.locals.setings = {
       ...defaultSetings,
       ...(setings ? setings.toObject() : {})
     };
-
     next();
   } catch (err) {
     next(err);
   }
 });
-
 app.use((req, res, next) => {
-
   if (req.body) {
-
     Object.keys(req.body).forEach(key => {
-
       if (req.body[key] === undefined || req.body[key] === null) {
         req.body[key] = "";
       }
-
       if (typeof req.body[key] === "string") {
         req.body[key] = req.body[key].trim();
       }
-
     });
-
   }
-
   next();
-
 });
-
-
 app.get('/', (req, res, next) => {
   Promise.all([
     Iteam.find().populate('categore'),
@@ -210,20 +148,14 @@ app.get('/', (req, res, next) => {
     })
     .catch(next);
 });
-
 app.post('/admin', upload.fields([
   { name: 'logo', maxCount: 1 },
   { name: 'picture', maxCount: 1 },
   { name: 'cafePicture', maxCount: 4 }
 ]), async (req, res) => {
-
-
   const action = req.body.action;
-
   if (action === 'iteam') {
-
     const productImage = req.files?.picture?.[0];
-
     const newItem = new Iteam({
       iteamName: req.body.iteamName,
       price: req.body.price,
@@ -232,29 +164,21 @@ app.post('/admin', upload.fields([
       picture: productImage
       ? `/uploads/products/${productImage.filename}`
       : ''
-    
     });
-
     await newItem.save();
     return res.redirect('/admin');
   }
-
   if (action === 'setings') {
-
     const logoFile = req.files?.logo?.[0];
     const cafePicFiles = req.files?.cafePicture || [];
-  
     const newSeting = new Seting({
       ...req.body,
-  
       logo: logoFile
         ? `/uploads/logo/${logoFile.filename}`
         : '',
-  
       cafePicture: cafePicFiles.map(file =>
         `/uploads/cafe/${file.filename}`
       )
-  
     });
   
     await newSeting.save();
@@ -470,29 +394,25 @@ app.post('/admin/delete-categore/:id', isAdmin, async (req, res) => {
 });
 app.post("/order", async (req, res) => {
   try {
+    const sessionId = req.cookies.sessionId;
     const order = new Order({
       table: req.body.table,
       order: req.body.order,
       status: "pending"
-    })
-
-    await order.save()
-
+    });
+    await order.save();
     const fullOrder = await Order
       .findById(order._id)
-      .populate("order.productId")
-
-    const io = req.app.get("io")
-
-    io.emit("newOrder", fullOrder)
-
-    res.redirect("/")
-
+      .populate("order.productId");
+    const io = req.app.get("io");
+    io.emit("newOrder", fullOrder);
+    await Cart.deleteOne({ sessionId });
+    res.redirect("/success");
   } catch (err) {
-    console.log(err)
-    res.status(500).send("order error")
+    console.log(err);
+    res.status(500).send("order error");
   }
-})
+});
 /////////////////////////////////////////////////////////////////////////////////////////
 app.get('/contact' , (req , res) => {
     res.render('contact.ejs')
@@ -532,11 +452,9 @@ app.get('/admin', isAdmin, async (req, res) => {
       Order.find().populate('order.productId'),
       Categore.find()
     ]);
-
     const pendingOrders = orders.filter(o => o.status === 'pending');
     const preparingOrders = orders.filter(o => o.status === 'preparing');
     const deliveredOrders = orders.filter(o => o.status === 'delivered');
-
     res.render('admin', {
       messages,
       iteams,
@@ -550,7 +468,6 @@ app.get('/admin', isAdmin, async (req, res) => {
     res.redirect('/');
   }
 });
-
 app.post('/admin/delete/:id', async (req, res) => {
   try {
     const item = await Iteam.findById(req.params.id);
@@ -574,14 +491,20 @@ app.post('/admin/delete/:id', async (req, res) => {
     res.redirect('/admin');
   }
 });
-app.get('/admin/edit/:id' , (req , res) => {
-  const id = req.params.id;
-  Iteam.findById(id)
-    .then(iteam => {
-      console.log(iteam)
-      res.render('edit' , {iteam})
+app.get('/admin/edit/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const iteam = await Iteam.findById(id)
+    const categories = await Categore.find()
+    console.log(iteam)
+    res.render('edit', {
+      iteam,
+      categories
     })
-    .catch(e => console.log(e))
+  } catch (e) {
+    console.log(e)
+    res.redirect('/admin')
+  }
 })
 app.post('/admin/update/:id', upload.fields([{ name: 'picture', maxCount: 1 }]), async (req, res) => {
   try {
@@ -690,9 +613,7 @@ app.use((req, res) => {
   res.status(404).render('e404.ejs');
 });
 app.use((err, req, res, next) => {
-
   console.error(err);
-
   return res.status(500).json({
     success: false,
     message: "خطای داخلی سرور"
