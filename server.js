@@ -83,6 +83,18 @@ app.use((req, res, next) => {
 })
 
 ////////////////////////////////////////////////
+const dirs = [
+  "public/uploads/logo",
+  "public/uploads/products",
+  "public/uploads/cafe"
+];
+
+dirs.forEach(dir => {
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+    console.log(`Directory created: ${dir}`);
+  }
+});
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
 
@@ -110,7 +122,6 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }
 })
-
 ////////////////////////////////////////////////
 
 const dbURI = 'mongodb://admin:gzUNmn96F5MoveQgMgDr@coffee-fje-service:27017/admin'
@@ -265,17 +276,10 @@ app.post('/admin', upload.fields([
   
 
 });
-
-
-
-
-
-
 app.get('/about_us' , (req , res) => {
     res.render('aboutUs.ejs')
 })
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function isAjax(req) {
   return (req.get('X-Requested-With') || '').toLowerCase() === 'xmlhttprequest';
 }
@@ -330,8 +334,6 @@ app.get('/cart', async (req, res) => {
     res.render('cart.ejs', { cartItems: [] });
   }
 });
-
-
 app.get('/cart/summary', async (req, res) => {
   const sessionId = req.cookies.sessionId;
 
@@ -466,12 +468,8 @@ app.post('/admin/delete-categore/:id', isAdmin, async (req, res) => {
       res.status(500).send("خطایی در حذف دسته‌بندی رخ داد");
   }
 });
-
-
-
 app.post("/order", async (req, res) => {
   try {
-
     const order = new Order({
       table: req.body.table,
       order: req.body.order,
@@ -495,10 +493,7 @@ app.post("/order", async (req, res) => {
     res.status(500).send("order error")
   }
 })
-
-
 /////////////////////////////////////////////////////////////////////////////////////////
-
 app.get('/contact' , (req , res) => {
     res.render('contact.ejs')
 })
@@ -512,11 +507,9 @@ app.post('/contact' , (req , res) => {
         })
         .catch((e) => console.log(e))
 })
-
 app.get('/c0f3l09' , (req , res) => {
   res.render('adminLog')
 })
-
 app.post('/c0f3l09', async (req, res) => {
   try {
     const admin = await Pass.findOne();
@@ -531,9 +524,6 @@ app.post('/c0f3l09', async (req, res) => {
     res.redirect('/c0f3l09');
   }
 });
-
-
-
 app.get('/admin', isAdmin, async (req, res) => {
   try {
     const [messages, iteams, orders , categore] = await Promise.all([
@@ -672,24 +662,15 @@ app.post("/admin/order/delete/:id", isAdmin, async (req, res) => {
 })
 app.post("/admin/orders/delete-delivered", isAdmin, async (req, res) => {
   try {
-
     await Order.deleteMany({ status: "delivered" })
-
     const io = req.app.get("io")
     io.emit("deliveredOrdersCleared")
-
     res.redirect("/admin")
-
   } catch (err) {
-
     console.log(err)
     res.status(500).send("bulk delete error")
-
   }
 })
-
-
-
 app.get('/seting' , (req , res) => {
   res.render('seting')
 })
@@ -702,7 +683,6 @@ app.get('/setinggetsend' , (req , res) => {
     })
     .catch((e) => console.log(e))
 })
-
 app.get('/success' , (req , res) => {
   res.render('success')
 })
@@ -717,12 +697,10 @@ app.use((err, req, res, next) => {
     success: false,
     message: "خطای داخلی سرور"
   });
-
 });
 process.on("uncaughtException", err => {
   console.error("UNCAUGHT EXCEPTION:", err);
 });
-
 process.on("unhandledRejection", err => {
   console.error("UNHANDLED REJECTION:", err);
 });
